@@ -3,77 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Analyzer Pro - African Digital Products</title>
+    <title>Analyzer Pro - African Digital Products</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Navigation -->
-        <nav class="navbar">
-            <div class="nav-brand">🚀 Analyzer Pro</div>
-            <div class="nav-menu">
-                <button id="loginBtn" class="btn-login">Login</button>
-                <button id="signupBtn" class="btn-signup">Sign Up</button>
-            </div>
-        </nav>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-brand">🚀 Analyzer Pro</div>
+        <div class="nav-menu">
+            <button class="btn-login" onclick="showAuthPage()">Login</button>
+            <button class="btn-signup" onclick="showAuthPage()">Sign Up</button>
+        </div>
+    </nav>
 
-        <!-- Auth Pages -->
-        <div id="authPage" class="page hidden">
+    <div id="app">
+        <!-- AUTH PAGE -->
+        <div id="authPage" class="page">
             <div class="auth-container">
-                <div id="loginForm" class="form-container">
+                <!-- LOGIN FORM -->
+                <div id="loginFormSection" class="form-container">
                     <h2>Login</h2>
                     <input type="email" id="loginEmail" placeholder="Email" required>
                     <input type="password" id="loginPassword" placeholder="Password" required>
-                    <button onclick="login()">Login</button>
-                    <p>Don't have account? <a onclick="showSignup()">Sign Up</a></p>
+                    <button class="btn-primary" onclick="handleLogin()">Login</button>
+                    <p>Don't have account? <a onclick="showSignupForm()">Sign Up</a></p>
                 </div>
 
-                <div id="signupForm" class="form-container hidden">
+                <!-- SIGNUP FORM -->
+                <div id="signupFormSection" class="form-container hidden">
                     <h2>Sign Up</h2>
                     <input type="text" id="signupName" placeholder="Your Name" required>
                     <input type="email" id="signupEmail" placeholder="Email" required>
                     <input type="password" id="signupPassword" placeholder="Password" required>
-                    <button onclick="signup()">Create Account</button>
-                    <p>Already have account? <a onclick="showLogin()">Login</a></p>
+                    <button class="btn-primary" onclick="handleSignup()">Create Account</button>
+                    <p>Already have account? <a onclick="showLoginForm()">Login</a></p>
                 </div>
             </div>
         </div>
 
-        <!-- Dashboard -->
+        <!-- DASHBOARD PAGE -->
         <div id="dashboardPage" class="page hidden">
-            <div class="dashboard">
-                <h1>Welcome to Analyzer Pro!</h1>
-                <p>Analyze your digital product ideas</p>
+            <div class="container">
+                <div class="dashboard">
+                    <h1>Welcome to Analyzer Pro! 🎉</h1>
+                    <p>Your AI-powered product analysis tool</p>
 
-                <div class="quick-menu">
-                    <button class="menu-btn" onclick="showIdeas()">📚 Find Ideas</button>
-                    <button class="menu-btn" onclick="showAnalyzer()">📊 Analyze Product</button>
-                    <button class="menu-btn" onclick="showGenerator()">🎨 Generate Content</button>
-                    <button class="menu-btn" onclick="showFeedback()">💬 Get Feedback</button>
-                </div>
+                    <div class="quick-menu">
+                        <button class="menu-btn" onclick="showIdeasPage()">📚 Find Ideas</button>
+                        <button class="menu-btn" onclick="showAnalyzerPage()">📊 Analyze Product</button>
+                        <button class="menu-btn" onclick="showGeneratorPage()">🎨 Generate Content</button>
+                        <button class="menu-btn" onclick="showFeedbackPage()">💬 Get Feedback</button>
+                    </div>
 
-                <div id="stats" class="stats-grid">
-                    <div class="stat-card">
-                        <h3>Ideas Generated</h3>
-                        <p id="ideasCount">0</p>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Ideas Generated</h3>
+                            <p id="ideasCount">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Products Analyzed</h3>
+                            <p id="analyzedCount">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Subscription</h3>
+                            <p id="subStatus">Free</p>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <h3>Products Analyzed</h3>
-                        <p id="analyzedCount">0</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>Subscription</h3>
-                        <p id="subStatus">Free</p>
-                    </div>
+
+                    <button class="btn-secondary" onclick="handleLogout()" style="margin-top: 2rem;">Logout</button>
                 </div>
             </div>
         </div>
 
-        <!-- Ideas Section -->
+        <!-- IDEAS PAGE -->
         <div id="ideasPage" class="page hidden">
             <div class="container">
-                <h1>Find Product Ideas</h1>
-                
+                <h1>Find Product Ideas 💡</h1>
+
                 <div class="form-group">
                     <label>Category:</label>
                     <select id="categorySelect">
@@ -96,50 +102,48 @@
                     </select>
                 </div>
 
-                <button onclick="generateIdeas()" class="btn-primary">Generate Ideas</button>
+                <button class="btn-primary" onclick="handleGenerateIdeas()">Generate Ideas</button>
 
                 <div id="ideasResult" class="result-container hidden">
                     <h2>Your Ideas:</h2>
                     <div id="ideasList"></div>
                 </div>
 
-                <button onclick="backToDashboard()" class="btn-secondary">Back</button>
+                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
             </div>
         </div>
 
-        <!-- Analyzer Section -->
+        <!-- ANALYZER PAGE -->
         <div id="analyzerPage" class="page hidden">
             <div class="container">
-                <h1>Analyze Your Product</h1>
+                <h1>Analyze Your Product 📊</h1>
 
-                <form id="analyzerForm">
-                    <input type="text" id="productName" placeholder="Product Name" required>
-                    <textarea id="productDesc" placeholder="Product Description" required></textarea>
-                    <select id="productFormat" required>
-                        <option>Ebook</option>
-                        <option>Video Course</option>
-                        <option>Template</option>
-                        <option>Coaching</option>
-                    </select>
-                    <input type="number" id="productPrice" placeholder="Price (XOF)" required>
-                    <textarea id="productAudience" placeholder="Target Audience" required></textarea>
-                </form>
+                <input type="text" id="productName" placeholder="Product Name" required>
+                <textarea id="productDesc" placeholder="Product Description" required></textarea>
+                <select id="productFormat" required>
+                    <option>Ebook</option>
+                    <option>Video Course</option>
+                    <option>Template</option>
+                    <option>Coaching</option>
+                </select>
+                <input type="number" id="productPrice" placeholder="Price (XOF)" required>
+                <textarea id="productAudience" placeholder="Target Audience" required></textarea>
 
-                <button onclick="analyzeProduct()" class="btn-primary">Analyze</button>
+                <button class="btn-primary" onclick="handleAnalyzeProduct()">Analyze</button>
 
                 <div id="analyzerResult" class="result-container hidden">
                     <h2>Analysis Results:</h2>
                     <div id="analysisList"></div>
                 </div>
 
-                <button onclick="backToDashboard()" class="btn-secondary">Back</button>
+                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
             </div>
         </div>
 
-        <!-- Generator Section -->
+        <!-- GENERATOR PAGE -->
         <div id="generatorPage" class="page hidden">
             <div class="container">
-                <h1>Generate Content</h1>
+                <h1>Generate Content 🎨</h1>
 
                 <div class="form-group">
                     <label>Content Type:</label>
@@ -152,33 +156,31 @@
                 </div>
 
                 <textarea id="genTopic" placeholder="What topic?" required></textarea>
-
-                <button onclick="generateContent()" class="btn-primary">Generate</button>
+                <button class="btn-primary" onclick="handleGenerateContent()">Generate</button>
 
                 <div id="generatorResult" class="result-container hidden">
                     <h2>Generated Content:</h2>
                     <div id="generatedContent"></div>
                 </div>
 
-                <button onclick="backToDashboard()" class="btn-secondary">Back</button>
+                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
             </div>
         </div>
 
-        <!-- Feedback Section -->
+        <!-- FEEDBACK PAGE -->
         <div id="feedbackPage" class="page hidden">
             <div class="container">
-                <h1>AI Honest Feedback</h1>
+                <h1>AI Honest Feedback 💬</h1>
 
                 <textarea id="feedbackProduct" placeholder="Describe your product idea..." required></textarea>
-
-                <button onclick="getHonestFeedback()" class="btn-primary">Get Feedback</button>
+                <button class="btn-primary" onclick="handleGetFeedback()">Get Feedback</button>
 
                 <div id="feedbackResult" class="result-container hidden">
                     <h2>Claude's Honest Feedback:</h2>
                     <div id="feedbackContent"></div>
                 </div>
 
-                <button onclick="backToDashboard()" class="btn-secondary">Back</button>
+                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
             </div>
         </div>
     </div>
