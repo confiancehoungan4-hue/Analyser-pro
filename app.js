@@ -1,7 +1,7 @@
 // ==================== CONFIGURATION ====================
 
-const SUPABASE_URL = 'https://kukdgqlnzcceuzbgdkj.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_0kzkc3b-21b-QDzpc1ATfdw_calhiJFd';
+const SUPABASE_URL = https://acqeocpbzcuzkightxno.supabase.co
+const SUPABASE_KEY = sb_publishable_L236Ip5AoGUfONwK89DLBg_LiP7t_-8
 const CLAUDE_API_KEY = 'sk-ant-YOUR-KEY-HERE'; // Tu la rajouteras
 
 let currentUser = null;
