@@ -1,190 +1,281 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyzer Pro - African Digital Products</title>
+    <title>Analyzer Pro - African Digital Product Intelligence</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- NAVBAR -->
+    <!-- LANGUAGE SWITCHER + NAVBAR -->
     <nav class="navbar">
-        <div class="nav-brand">🚀 Analyzer Pro</div>
-        <div class="nav-menu">
+        <div class="nav-left">
+            <div class="nav-brand">🚀 Analyzer Pro</div>
+        </div>
+        <div class="nav-center">
+            <div class="language-switcher">
+                <button class="lang-btn active" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('fr')">Français</button>
+            </div>
+        </div>
+        <div class="nav-right" id="navRight">
             <button class="btn-login" onclick="showAuthPage()">Login</button>
             <button class="btn-signup" onclick="showAuthPage()">Sign Up</button>
         </div>
     </nav>
 
     <div id="app">
-        <!-- AUTH PAGE -->
+        <!-- ==================== AUTH PAGE ==================== -->
         <div id="authPage" class="page">
             <div class="auth-container">
-                <!-- LOGIN FORM -->
                 <div id="loginFormSection" class="form-container">
-                    <h2>Login</h2>
-                    <input type="email" id="loginEmail" placeholder="Email" required>
-                    <input type="password" id="loginPassword" placeholder="Password" required>
-                    <button class="btn-primary" onclick="handleLogin()">Login</button>
-                    <p>Don't have account? <a onclick="showSignupForm()">Sign Up</a></p>
+                    <h2 data-en="Login" data-fr="Connexion">Login</h2>
+                    <input type="email" id="loginEmail" data-placeholder-en="Email" data-placeholder-fr="Email" placeholder="Email">
+                    <input type="password" id="loginPassword" data-placeholder-en="Password" data-placeholder-fr="Mot de passe" placeholder="Password">
+                    <button class="btn-primary" onclick="handleLogin()" data-en="Sign In" data-fr="Se connecter">Sign In</button>
+                    <p><span data-en="Don't have account?" data-fr="Pas de compte?">Don't have account?</span> <a onclick="showSignupForm()" data-en="Sign Up" data-fr="S'inscrire">Sign Up</a></p>
                 </div>
 
-                <!-- SIGNUP FORM -->
                 <div id="signupFormSection" class="form-container hidden">
-                    <h2>Sign Up</h2>
-                    <input type="text" id="signupName" placeholder="Your Name" required>
-                    <input type="email" id="signupEmail" placeholder="Email" required>
-                    <input type="password" id="signupPassword" placeholder="Password" required>
-                    <button class="btn-primary" onclick="handleSignup()">Create Account</button>
-                    <p>Already have account? <a onclick="showLoginForm()">Login</a></p>
+                    <h2 data-en="Create Account" data-fr="Créer un compte">Create Account</h2>
+                    <input type="text" id="signupName" data-placeholder-en="Your Name" data-placeholder-fr="Votre nom" placeholder="Your Name">
+                    <input type="email" id="signupEmail" data-placeholder-en="Email" data-placeholder-fr="Email" placeholder="Email">
+                    <input type="password" id="signupPassword" data-placeholder-en="Password" data-placeholder-fr="Mot de passe" placeholder="Password">
+                    <button class="btn-primary" onclick="handleSignup()" data-en="Create Account" data-fr="Créer un compte">Create Account</button>
+                    <p><span data-en="Already have account?" data-fr="Déjà connecté?">Already have account?</span> <a onclick="showLoginForm()" data-en="Sign In" data-fr="Se connecter">Sign In</a></p>
                 </div>
             </div>
         </div>
 
-        <!-- DASHBOARD PAGE -->
+        <!-- ==================== DASHBOARD PAGE ==================== -->
         <div id="dashboardPage" class="page hidden">
-            <div class="container">
-                <div class="dashboard">
-                    <h1>Welcome to Analyzer Pro! 🎉</h1>
-                    <p>Your AI-powered product analysis tool</p>
+            <div class="sidebar" id="sidebar">
+                <div class="sidebar-header">
+                    <h3 data-en="Menu" data-fr="Menu">Menu</h3>
+                    <button class="close-sidebar" onclick="closeSidebar()">✕</button>
+                </div>
+                <ul class="sidebar-menu">
+                    <li><a onclick="showDashboard()" data-en="Dashboard" data-fr="Tableau de bord">Dashboard</a></li>
+                    <li><a onclick="showSection('ideaFinder')" data-en="Idea Finder" data-fr="Générateur d'idées">Idea Finder</a></li>
+                    <li><a onclick="showSection('winningProducts')" data-en="Winning Products" data-fr="Produits gagnants">Winning Products</a></li>
+                    <li><a onclick="showSection('analyzer')" data-en="Product Analyzer" data-fr="Analyseur de produit">Product Analyzer</a></li>
+                    <li><a onclick="showSection('competitorSpy')" data-en="Competitor Spy" data-fr="Espion concurrent">Competitor Spy</a></li>
+                    <li><a onclick="showSection('trendPredictor')" data-en="Trend Predictor" data-fr="Prédicteur de tendance">Trend Predictor</a></li>
+                    <li><a onclick="showSection('marketValidator')" data-en="Market Validator" data-fr="Validateur de marché">Market Validator</a></li>
+                    <li><a onclick="showSection('angleGenerator')" data-en="Angle Generator" data-fr="Générateur d'angles">Angle Generator</a></li>
+                    <li><a onclick="showSection('monetization')" data-en="Monetization Hub" data-fr="Centre de monétisation">Monetization Hub</a></li>
+                    <li><a onclick="showSection('sellingStrategy')" data-en="Selling Strategy" data-fr="Stratégie de vente">Selling Strategy</a></li>
+                    <li><a onclick="showSection('international')" data-en="International Expansion" data-fr="Expansion internationale">International Expansion</a></li>
+                    <li><a onclick="showSection('productGenerator')" data-en="Product Generator" data-fr="Générateur de produit">Product Generator</a></li>
+                    <li><a onclick="showSection('imageGenerator')" data-en="Image Generator" data-fr="Générateur d'images">Image Generator</a></li>
+                    <li><a onclick="showSection('promptGenerator')" data-en="Prompt Generator" data-fr="Générateur de prompts">Prompt Generator</a></li>
+                    <li><a onclick="showSection('countryTargeting')" data-en="Country Targeting" data-fr="Ciblage par pays">Country Targeting</a></li>
+                    <li><a onclick="showSection('honestFeedback')" data-en="AI Feedback" data-fr="Avis IA">AI Feedback</a></li>
+                    <li><a onclick="showSection('profile')" data-en="Profile" data-fr="Profil">Profile</a></li>
+                    <li><a onclick="showSection('settings')" data-en="Settings" data-fr="Paramètres">Settings</a></li>
+                    <li><a onclick="handleLogout()" data-en="Logout" data-fr="Déconnexion">Logout</a></li>
+                </ul>
+            </div>
 
-                    <div class="quick-menu">
-                        <button class="menu-btn" onclick="showIdeasPage()">📚 Find Ideas</button>
-                        <button class="menu-btn" onclick="showAnalyzerPage()">📊 Analyze Product</button>
-                        <button class="menu-btn" onclick="showGeneratorPage()">🎨 Generate Content</button>
-                        <button class="menu-btn" onclick="showFeedbackPage()">💬 Get Feedback</button>
+            <div class="main-content">
+                <!-- DASHBOARD VIEW -->
+                <div id="dashboardView" class="view">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="Welcome to Analyzer Pro! 🎉" data-fr="Bienvenue sur Analyzer Pro! 🎉">Welcome to Analyzer Pro! 🎉</h1>
+                        </div>
+                        <p class="subtitle" data-en="Your AI-powered product analysis tool" data-fr="Votre outil d'analyse de produits alimenté par l'IA">Your AI-powered product analysis tool</p>
+
+                        <div class="quick-menu">
+                            <button class="menu-btn" onclick="showSection('ideaFinder')" data-en="💡 Idea Finder" data-fr="💡 Générateur d'idées">💡 Idea Finder</button>
+                            <button class="menu-btn" onclick="showSection('analyzer')" data-en="📊 Product Analyzer" data-fr="📊 Analyseur de produit">📊 Product Analyzer</button>
+                            <button class="menu-btn" onclick="showSection('angleGenerator')" data-en="🎯 Angle Generator" data-fr="🎯 Générateur d'angles">🎯 Angle Generator</button>
+                            <button class="menu-btn" onclick="showSection('honestFeedback')" data-en="💬 AI Feedback" data-fr="💬 Avis IA">💬 AI Feedback</button>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <h3 data-en="Ideas Generated" data-fr="Idées générées">Ideas Generated</h3>
+                                <p id="ideasCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 data-en="Products Analyzed" data-fr="Produits analysés">Products Analyzed</h3>
+                                <p id="analyzedCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <h3 data-en="Subscription Plan" data-fr="Plan d'abonnement">Subscription Plan</h3>
+                                <p id="subStatus">Free</p>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <h3>Ideas Generated</h3>
-                            <p id="ideasCount">0</p>
+                <!-- 1. IDEA FINDER SECTION -->
+                <div id="ideaFinderView" class="view hidden">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="💡 Idea Finder" data-fr="💡 Générateur d'idées">💡 Idea Finder</h1>
                         </div>
-                        <div class="stat-card">
-                            <h3>Products Analyzed</h3>
-                            <p id="analyzedCount">0</p>
+
+                        <div class="form-group">
+                            <label data-en="Category:" data-fr="Catégorie:">Category:</label>
+                            <select id="categorySelect">
+                                <option data-en="Marketing" data-fr="Marketing">Marketing</option>
+                                <option data-en="Education" data-fr="Éducation">Education</option>
+                                <option data-en="Business" data-fr="Affaires">Business</option>
+                                <option data-en="Finance" data-fr="Finance">Finance</option>
+                                <option data-en="Design" data-fr="Design">Design</option>
+                                <option data-en="Technology" data-fr="Technologie">Technology</option>
+                                <option data-en="Health" data-fr="Santé">Health</option>
+                                <option data-en="Entrepreneurship" data-fr="Entrepreneuriat">Entrepreneurship</option>
+                            </select>
                         </div>
-                        <div class="stat-card">
-                            <h3>Subscription</h3>
-                            <p id="subStatus">Free</p>
+
+                        <div class="form-group">
+                            <label data-en="Experience Level:" data-fr="Niveau d'expérience:">Experience Level:</label>
+                            <select id="experienceLevel">
+                                <option data-en="Beginner" data-fr="Débutant">Beginner</option>
+                                <option data-en="Intermediate" data-fr="Intermédiaire">Intermediate</option>
+                                <option data-en="Advanced" data-fr="Avancé">Advanced</option>
+                                <option data-en="Expert" data-fr="Expert">Expert</option>
+                            </select>
                         </div>
+
+                        <div class="form-group">
+                            <label data-en="Target Format:" data-fr="Format cible:">Target Format:</label>
+                            <select id="targetFormat">
+                                <option data-en="Ebook" data-fr="E-book">Ebook</option>
+                                <option data-en="Video Course" data-fr="Cours vidéo">Video Course</option>
+                                <option data-en="Template" data-fr="Modèle">Template</option>
+                                <option data-en="Coaching" data-fr="Coaching">Coaching</option>
+                                <option data-en="Software" data-fr="Logiciel">Software</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Budget Range:" data-fr="Plage budgétaire:">Budget Range:</label>
+                            <select id="budgetRange">
+                                <option data-en="$0-500" data-fr="$0-500">$0-500</option>
+                                <option data-en="$500-2000" data-fr="$500-2000">$500-2000</option>
+                                <option data-en="$2000-5000" data-fr="$2000-5000">$2000-5000</option>
+                                <option data-en="$5000+" data-fr="$5000+">$5000+</option>
+                            </select>
+                        </div>
+
+                        <button class="btn-primary" onclick="generateIdeas()" data-en="Generate 50+ Ideas" data-fr="Générer 50+ idées">Generate 50+ Ideas</button>
+
+                        <div id="ideaResult" class="result-container hidden">
+                            <h2 data-en="Your Product Ideas:" data-fr="Vos idées de produits:">Your Product Ideas:</h2>
+                            <div id="ideaList"></div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="showDashboard()" data-en="Back to Dashboard" data-fr="Retour au tableau de bord">Back to Dashboard</button>
                     </div>
-
-                    <button class="btn-secondary" onclick="handleLogout()" style="margin-top: 2rem;">Logout</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- IDEAS PAGE -->
-        <div id="ideasPage" class="page hidden">
-            <div class="container">
-                <h1>Find Product Ideas 💡</h1>
-
-                <div class="form-group">
-                    <label>Category:</label>
-                    <select id="categorySelect">
-                        <option>Marketing</option>
-                        <option>Education</option>
-                        <option>Business</option>
-                        <option>Finance</option>
-                        <option>Design</option>
-                        <option>Tech</option>
-                    </select>
                 </div>
 
-                <div class="form-group">
-                    <label>Target Audience:</label>
-                    <select id="audienceSelect">
-                        <option>Beginners</option>
-                        <option>Intermediate</option>
-                        <option>Advanced</option>
-                        <option>Entrepreneurs</option>
-                    </select>
+                <!-- 2. WINNING PRODUCTS SECTION -->
+                <div id="winningProductsView" class="view hidden">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="🏆 Winning Products" data-fr="🏆 Produits gagnants">🏆 Winning Products</h1>
+                        </div>
+
+                        <div class="form-group">
+                            <label data-en="Niche:" data-fr="Niche:">Niche:</label>
+                            <input type="text" id="nicheInput" data-placeholder-en="Enter niche (e.g., Digital Marketing)" data-placeholder-fr="Entrez la niche (ex. Marketing numérique)" placeholder="Enter niche">
+                        </div>
+
+                        <button class="btn-primary" onclick="findWinningProducts()" data-en="Find Winners" data-fr="Trouver les gagnants">Find Winners</button>
+
+                        <div id="winningResult" class="result-container hidden">
+                            <h2 data-en="Winning Products in This Niche:" data-fr="Produits gagnants dans cette niche:">Winning Products in This Niche:</h2>
+                            <div id="winningList"></div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="showDashboard()" data-en="Back to Dashboard" data-fr="Retour au tableau de bord">Back to Dashboard</button>
+                    </div>
                 </div>
 
-                <button class="btn-primary" onclick="handleGenerateIdeas()">Generate Ideas</button>
+                <!-- 3. PRODUCT ANALYZER SECTION -->
+                <div id="analyzerView" class="view hidden">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="📊 Product Analyzer" data-fr="📊 Analyseur de produit">📊 Product Analyzer</h1>
+                        </div>
 
-                <div id="ideasResult" class="result-container hidden">
-                    <h2>Your Ideas:</h2>
-                    <div id="ideasList"></div>
+                        <input type="text" id="productName" data-placeholder-en="Product Name" data-placeholder-fr="Nom du produit" placeholder="Product Name">
+                        <textarea id="productDesc" data-placeholder-en="Product Description" data-placeholder-fr="Description du produit" placeholder="Product Description"></textarea>
+                        <select id="productFormat">
+                            <option data-en="Ebook" data-fr="E-book">Ebook</option>
+                            <option data-en="Video Course" data-fr="Cours vidéo">Video Course</option>
+                            <option data-en="Template" data-fr="Modèle">Template</option>
+                            <option data-en="Coaching" data-fr="Coaching">Coaching</option>
+                        </select>
+                        <input type="number" id="productPrice" data-placeholder-en="Price (XOF)" data-placeholder-fr="Prix (XOF)" placeholder="Price (XOF)">
+                        <textarea id="productAudience" data-placeholder-en="Target Audience" data-placeholder-fr="Public cible" placeholder="Target Audience"></textarea>
+
+                        <button class="btn-primary" onclick="analyzeProduct()" data-en="Analyze (Score 0-100, SWOT, Pricing)" data-fr="Analyser (Score 0-100, SWOT, Tarification)">Analyze</button>
+
+                        <div id="analyzerResult" class="result-container hidden">
+                            <h2 data-en="Analysis Results:" data-fr="Résultats de l'analyse:">Analysis Results:</h2>
+                            <div id="analysisList"></div>
+                        </div>
+
+                        <button class="btn-secondary" onclick="showDashboard()" data-en="Back to Dashboard" data-fr="Retour au tableau de bord">Back to Dashboard</button>
+                    </div>
                 </div>
 
-                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
-            </div>
-        </div>
+                <!-- 4. COMPETITOR SPY SECTION -->
+                <div id="competitorSpyView" class="view hidden">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="🕵️ Competitor Spy" data-fr="🕵️ Espion concurrent">🕵️ Competitor Spy</h1>
+                        </div>
 
-        <!-- ANALYZER PAGE -->
-        <div id="analyzerPage" class="page hidden">
-            <div class="container">
-                <h1>Analyze Your Product 📊</h1>
+                        <input type="text" id="competitorName" data-placeholder-en="Competitor/Product Name" data-placeholder-fr="Nom du concurrent/produit" placeholder="Competitor Name">
+                        <textarea id="competitorInfo" data-placeholder-en="What do you know about them?" data-placeholder-fr="Que savez-vous d'eux?" placeholder="What do you know about them?"></textarea>
 
-                <input type="text" id="productName" placeholder="Product Name" required>
-                <textarea id="productDesc" placeholder="Product Description" required></textarea>
-                <select id="productFormat" required>
-                    <option>Ebook</option>
-                    <option>Video Course</option>
-                    <option>Template</option>
-                    <option>Coaching</option>
-                </select>
-                <input type="number" id="productPrice" placeholder="Price (XOF)" required>
-                <textarea id="productAudience" placeholder="Target Audience" required></textarea>
+                        <button class="btn-primary" onclick="spyCompetitor()" data-en="Analyze Competitor" data-fr="Analyser le concurrent">Analyze Competitor</button>
 
-                <button class="btn-primary" onclick="handleAnalyzeProduct()">Analyze</button>
+                        <div id="competitorResult" class="result-container hidden">
+                            <h2 data-en="Competitor Analysis:" data-fr="Analyse du concurrent:">Competitor Analysis:</h2>
+                            <div id="competitorList"></div>
+                        </div>
 
-                <div id="analyzerResult" class="result-container hidden">
-                    <h2>Analysis Results:</h2>
-                    <div id="analysisList"></div>
+                        <button class="btn-secondary" onclick="showDashboard()" data-en="Back to Dashboard" data-fr="Retour au tableau de bord">Back to Dashboard</button>
+                    </div>
                 </div>
 
-                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
-            </div>
-        </div>
+                <!-- 5. TREND PREDICTOR SECTION -->
+                <div id="trendPredictorView" class="view hidden">
+                    <div class="container">
+                        <div class="view-header">
+                            <button class="menu-toggle" onclick="openSidebar()">☰</button>
+                            <h1 data-en="📈 Trend Predictor" data-fr="📈 Prédicteur de tendance">📈 Trend Predictor</h1>
+                        </div>
 
-        <!-- GENERATOR PAGE -->
-        <div id="generatorPage" class="page hidden">
-            <div class="container">
-                <h1>Generate Content 🎨</h1>
+                        <input type="text" id="trendKeyword" data-placeholder-en="Keyword/Niche (e.g., 'AI course')" data-placeholder-fr="Mot-clé/Niche (ex. 'cours IA')" placeholder="Keyword/Niche">
+                        
+                        <div class="form-group">
+                            <label data-en="Platform:" data-fr="Plateforme:">Platform:</label>
+                            <select id="trendPlatform">
+                                <option data-en="Google Trends" data-fr="Google Trends">Google Trends</option>
+                                <option data-en="Social Media" data-fr="Réseaux sociaux">Social Media</option>
+                                <option data-en="YouTube" data-fr="YouTube">YouTube</option>
+                            </select>
+                        </div>
 
-                <div class="form-group">
-                    <label>Content Type:</label>
-                    <select id="genType">
-                        <option>Ebook Outline</option>
-                        <option>Video Script</option>
-                        <option>AI Image Prompt</option>
-                        <option>Email Copy</option>
-                    </select>
-                </div>
+                        <button class="btn-primary" onclick="predictTrends()" data-en="Get Trend Data" data-fr="Obtenir les données de tendance">Get Trend Data</button>
 
-                <textarea id="genTopic" placeholder="What topic?" required></textarea>
-                <button class="btn-primary" onclick="handleGenerateContent()">Generate</button>
+                        <div id="trendResult" class="result-container hidden">
+                            <h2 data-en="Trend Analysis:" data-fr="Analyse de tendance:">Trend Analysis:</h2>
+                            <div id="trendList"></div>
+                        </div>
 
-                <div id="generatorResult" class="result-container hidden">
-                    <h2>Generated Content:</h2>
-                    <div id="generatedContent"></div>
-                </div>
-
-                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
-            </div>
-        </div>
-
-        <!-- FEEDBACK PAGE -->
-        <div id="feedbackPage" class="page hidden">
-            <div class="container">
-                <h1>AI Honest Feedback 💬</h1>
-
-                <textarea id="feedbackProduct" placeholder="Describe your product idea..." required></textarea>
-                <button class="btn-primary" onclick="handleGetFeedback()">Get Feedback</button>
-
-                <div id="feedbackResult" class="result-container hidden">
-                    <h2>Claude's Honest Feedback:</h2>
-                    <div id="feedbackContent"></div>
-                </div>
-
-                <button class="btn-secondary" onclick="backToDashboard()">Back to Dashboard</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
+                        <button class="btn-secondary" onclick="showDashboard()" data-en="Back to Dashboard" data-fr="Retour au tableau de bord">Back to Dashboard</button>
+                    </div>
