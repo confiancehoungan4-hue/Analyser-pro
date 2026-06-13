@@ -8,7 +8,9 @@ function setLanguage(lang) {
     updateLanguage();
     // Update active button
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) {
+        event.target.classList.add('active');
+    }
 }
 
 function t(en, fr) {
@@ -33,7 +35,7 @@ let analysisCount = 0;
 let ideasGeneratedCount = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Page loaded');
+    console.log('✅ Page loaded successfully!');
     updateLanguage();
     
     const savedUser = localStorage.getItem('user');
@@ -43,13 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             currentUser = JSON.parse(savedUser);
             authToken = savedToken;
+            console.log('✅ User found:', currentUser);
             showDashboard();
             updateStats();
         } catch (e) {
-            console.error('Error parsing user:', e);
+            console.error('❌ Error parsing user:', e);
             showAuthPage();
         }
     } else {
+        console.log('ℹ️ No user found, showing auth page');
         showAuthPage();
     }
 });
@@ -57,32 +61,51 @@ document.addEventListener('DOMContentLoaded', function() {
 // ==================== PAGE NAVIGATION ====================
 
 function showPage(pageId) {
+    console.log('🔀 Showing page:', pageId);
+    
     // Hide all views
-    document.querySelectorAll('.view').forEach(view => view.classList.add('hidden'));
+    document.querySelectorAll('.view').forEach(view => {
+        view.classList.add('hidden');
+    });
     
     // Show selected view
     const page = document.getElementById(pageId);
     if (page) {
         page.classList.remove('hidden');
+        console.log('✅ Page shown:', pageId);
+    } else {
+        console.error('❌ Page not found:', pageId);
     }
     
     closeSidebar();
 }
 
 function showAuthPage() {
-    document.getElementById('authPage').classList.remove('hidden');
-    document.getElementById('dashboardPage').classList.add('hidden');
+    console.log('🔐 Showing auth page');
+    const authPage = document.getElementById('authPage');
+    const dashPage = document.getElementById('dashboardPage');
+    
+    if (authPage) authPage.classList.remove('hidden');
+    if (dashPage) dashPage.classList.add('hidden');
+    
     showLoginForm();
 }
 
 function showDashboard() {
-    document.getElementById('authPage').classList.add('hidden');
-    document.getElementById('dashboardPage').classList.remove('hidden');
+    console.log('📊 Showing dashboard');
+    const authPage = document.getElementById('authPage');
+    const dashPage = document.getElementById('dashboardPage');
+    
+    if (authPage) authPage.classList.add('hidden');
+    if (dashPage) dashPage.classList.remove('hidden');
+    
     showPage('dashboardView');
     updateProfileDisplay();
 }
 
 function showSection(sectionId) {
+    console.log('📄 Showing section:', sectionId);
+    
     const viewMap = {
         'ideaFinder': 'ideaFinderView',
         'winningProducts': 'winningProductsView',
@@ -103,36 +126,60 @@ function showSection(sectionId) {
         'settings': 'settingsView'
     };
     
-    showPage(viewMap[sectionId]);
+    const viewId = viewMap[sectionId];
+    if (viewId) {
+        showPage(viewId);
+    } else {
+        console.error('❌ Unknown section:', sectionId);
+    }
 }
 
 // ==================== SIDEBAR ====================
 
 function openSidebar() {
-    document.getElementById('sidebar').classList.add('open');
+    console.log('📂 Opening sidebar');
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.classList.add('open');
+    }
 }
 
 function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+    }
 }
 
 // ==================== AUTH FORMS ====================
 
 function showLoginForm() {
-    document.getElementById('loginFormSection').classList.remove('hidden');
-    document.getElementById('signupFormSection').classList.add('hidden');
+    console.log('📝 Showing login form');
+    const loginForm = document.getElementById('loginFormSection');
+    const signupForm = document.getElementById('signupFormSection');
+    
+    if (loginForm) loginForm.classList.remove('hidden');
+    if (signupForm) signupForm.classList.add('hidden');
 }
 
 function showSignupForm() {
-    document.getElementById('signupFormSection').classList.remove('hidden');
-    document.getElementById('loginFormSection').classList.add('hidden');
+    console.log('📝 Showing signup form');
+    const loginForm = document.getElementById('loginFormSection');
+    const signupForm = document.getElementById('signupFormSection');
+    
+    if (loginForm) loginForm.classList.add('hidden');
+    if (signupForm) signupForm.classList.remove('hidden');
 }
 
 // ==================== AUTHENTICATION ====================
 
 function handleLogin() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    console.log('🔑 Handling login');
+    const emailInput = document.getElementById('loginEmail');
+    const passwordInput = document.getElementById('loginPassword');
+    
+    const email = emailInput ? emailInput.value : '';
+    const password = passwordInput ? passwordInput.value : '';
     
     if (!email || !password) {
         alert(t('Please fill all fields!', 'Veuillez remplir tous les champs!'));
@@ -150,17 +197,23 @@ function handleLogin() {
     localStorage.setItem('user', JSON.stringify(currentUser));
     localStorage.setItem('token', authToken);
     
-    document.getElementById('loginEmail').value = '';
-    document.getElementById('loginPassword').value = '';
+    if (emailInput) emailInput.value = '';
+    if (passwordInput) passwordInput.value = '';
     
+    console.log('✅ Login successful:', currentUser);
     alert(t('✅ Logged in successfully!', '✅ Connecté avec succès!'));
     showDashboard();
 }
 
 function handleSignup() {
-    const name = document.getElementById('signupName').value;
-    const email = document.getElementById('signupEmail').value;
-    const password = document.getElementById('signupPassword').value;
+    console.log('🔑 Handling signup');
+    const nameInput = document.getElementById('signupName');
+    const emailInput = document.getElementById('signupEmail');
+    const passwordInput = document.getElementById('signupPassword');
+    
+    const name = nameInput ? nameInput.value : '';
+    const email = emailInput ? emailInput.value : '';
+    const password = passwordInput ? passwordInput.value : '';
     
     if (!name || !email || !password) {
         alert(t('Please fill all fields!', 'Veuillez remplir tous les champs!'));
@@ -178,15 +231,17 @@ function handleSignup() {
     localStorage.setItem('user', JSON.stringify(currentUser));
     localStorage.setItem('token', authToken);
     
-    document.getElementById('signupName').value = '';
-    document.getElementById('signupEmail').value = '';
-    document.getElementById('signupPassword').value = '';
+    if (nameInput) nameInput.value = '';
+    if (emailInput) emailInput.value = '';
+    if (passwordInput) passwordInput.value = '';
     
+    console.log('✅ Signup successful:', currentUser);
     alert(t('✅ Account created! Welcome ' + name + '!', '✅ Compte créé! Bienvenue ' + name + '!'));
     showDashboard();
 }
 
 function handleLogout() {
+    console.log('🚪 Handling logout');
     if (confirm(t('Are you sure you want to logout?', 'Êtes-vous sûr de vouloir vous déconnecter?'))) {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -199,11 +254,15 @@ function handleLogout() {
 
 // ==================== CLAUDE API ====================
 
-const CLAUDE_API_KEY = 'sk-ant-YOUR-KEY-HERE'; // User will replace this
+const CLAUDE_API_KEY = 'sk-ant-YOUR-KEY-HERE';
 
 async function callClaude(prompt, maxTokens = 1500) {
+    console.log('🤖 Calling Claude API...');
+    
     if (CLAUDE_API_KEY === 'sk-ant-YOUR-KEY-HERE') {
-        return t('⚠️ Please configure your Claude API key in settings!', '⚠️ Veuillez configurer votre clé Claude API dans les paramètres!');
+        const msg = t('⚠️ Please configure your Claude API key in the code!', '⚠️ Veuillez configurer votre clé Claude API dans le code!');
+        console.warn(msg);
+        return msg;
     }
     
     try {
@@ -229,18 +288,19 @@ async function callClaude(prompt, maxTokens = 1500) {
         const data = await response.json();
         
         if (data.error) {
-            console.error('Claude API Error:', data.error);
+            console.error('❌ Claude API Error:', data.error);
             return t('❌ API Error: ' + data.error.message, '❌ Erreur API: ' + data.error.message);
         }
         
         if (data.content && data.content[0]) {
+            console.log('✅ Claude response received');
             return data.content[0].text;
         }
         
         return t('No response from Claude', 'Pas de réponse de Claude');
         
     } catch (error) {
-        console.error('Error calling Claude:', error);
+        console.error('❌ Error calling Claude:', error);
         return t('❌ Error: ' + error.message, '❌ Erreur: ' + error.message);
     }
 }
@@ -248,35 +308,23 @@ async function callClaude(prompt, maxTokens = 1500) {
 // ==================== 1. IDEA FINDER ====================
 
 async function generateIdeas() {
-    const category = document.getElementById('categorySelect').value;
-    const experience = document.getElementById('experienceLevel').value;
-    const format = document.getElementById('targetFormat').value;
-    const budget = document.getElementById('budgetRange').value;
+    console.log('💡 Generating ideas...');
     
-    const prompt = `You are an expert product strategist for African entrepreneurs. Generate 50+ profitable digital product ideas with these parameters:
+    const categorySelect = document.getElementById('categorySelect');
+    const experienceSelect = document.getElementById('experienceLevel');
+    const formatSelect = document.getElementById('targetFormat');
+    const budgetSelect = document.getElementById('budgetRange');
     
-Category: ${category}
-Experience Level: ${experience}
-Target Format: ${format}
-Budget Range: ${budget}
-
-For EACH idea provide:
-1. Product Name
-2. Description (1 sentence)
-3. Target Market Size (High/Medium/Low)
-4. Market Demand (Google Trends %)
-5. Competition Level (1-10)
-6. Revenue Potential (Realistic Year 1 in USD)
-7. Time to Create (days)
-8. Required Investment (USD)
-9. Skills Required
-10. Why it works in Africa
-
-Format clearly. Be specific and realistic. Think about African markets (Nigeria, Benin, Senegal, Ghana, Kenya, etc.).`;
+    const category = categorySelect ? categorySelect.value : 'Marketing';
+    const experience = experienceSelect ? experienceSelect.value : 'Beginner';
+    const format = formatSelect ? formatSelect.value : 'Ebook';
+    const budget = budgetSelect ? budgetSelect.value : '$0-500';
+    
+    const prompt = `Generate 50+ profitable digital product ideas with parameters: Category: ${category}, Experience: ${experience}, Format: ${format}, Budget: ${budget}. For each idea provide: 1) Name 2) Description 3) Target Market Size 4) Demand Level 5) Competition 6) Revenue Potential 7) Time to Create 8) Investment Needed 9) Required Skills 10) Why it works.`;
 
     showResultLoading('ideaResult', 'ideaList', t('Generating ideas...', 'Génération d\'idées...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2000);
     displayResult('ideaResult', 'ideaList', result);
     ideasGeneratedCount++;
     updateStats();
@@ -285,111 +333,51 @@ Format clearly. Be specific and realistic. Think about African markets (Nigeria,
 // ==================== 2. WINNING PRODUCTS ====================
 
 async function findWinningProducts() {
-    const niche = document.getElementById('nicheInput').value;
+    console.log('🏆 Finding winning products...');
+    
+    const nicheInput = document.getElementById('nicheInput');
+    const niche = nicheInput ? nicheInput.value : 'Digital Marketing';
     
     if (!niche) {
         alert(t('Please enter a niche!', 'Veuillez entrer une niche!'));
         return;
     }
     
-    const prompt = `Find the top 10 REAL, verifiable winning digital products in the niche: "${niche}"
-
-For each product:
-1. Product Name
-2. Creator/Platform
-3. Description
-4. Estimated Monthly Revenue (based on public data)
-5. Active Advertising Evidence
-6. Marketing Strategy Used
-7. Why It's Successful
-8. Target Audience
-9. Price Point
-10. How to Compete Against It
-
-Only include REAL, proven products. Look for Udemy courses, Gumroad, Teachable, ClickBank top sellers, and established creators.`;
+    const prompt = `Find top 10 real winning digital products in niche: "${niche}". For each provide: 1) Name 2) Creator 3) Description 4) Est. Revenue 5) Marketing Strategy 6) Why Successful 7) Target Audience 8) Price 9) How to Compete.`;
 
     showResultLoading('winningResult', 'winningList', t('Finding winners...', 'Recherche des gagnants...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2000);
     displayResult('winningResult', 'winningList', result);
 }
 
 // ==================== 3. PRODUCT ANALYZER ====================
 
 async function analyzeProduct() {
-    const name = document.getElementById('productName').value;
-    const desc = document.getElementById('productDesc').value;
-    const format = document.getElementById('productFormat').value;
-    const price = document.getElementById('productPrice').value;
-    const audience = document.getElementById('productAudience').value;
+    console.log('📊 Analyzing product...');
     
-    if (!name || !desc || !format || !price || !audience) {
+    const nameInput = document.getElementById('productName');
+    const descInput = document.getElementById('productDesc');
+    const formatInput = document.getElementById('productFormat');
+    const priceInput = document.getElementById('productPrice');
+    const audienceInput = document.getElementById('productAudience');
+    
+    const name = nameInput ? nameInput.value : '';
+    const desc = descInput ? descInput.value : '';
+    const format = formatInput ? formatInput.value : 'Ebook';
+    const price = priceInput ? priceInput.value : '0';
+    const audience = audienceInput ? audienceInput.value : '';
+    
+    if (!name || !desc || !price || !audience) {
         alert(t('Please fill all fields!', 'Veuillez remplir tous les champs!'));
         return;
     }
     
-    const prompt = `You are a product strategist analyzing a digital product for African markets.
-
-PRODUCT TO ANALYZE:
-Name: ${name}
-Description: ${desc}
-Format: ${format}
-Price: ${price} XOF
-Target Audience: ${audience}
-
-Provide a COMPLETE analysis:
-
-1. VIABILITY SCORE (0-100)
-   - Scoring breakdown
-   - Justification
-
-2. MARKET DEMAND
-   - Market size estimate
-   - Growth trends
-   - Search volume estimate
-
-3. COMPETITION ANALYSIS
-   - Direct competitors
-   - Indirect competitors
-   - Competitive advantage needed
-
-4. STRENGTHS (Top 5)
-   - Specific strengths
-
-5. WEAKNESSES (Top 5)
-   - Critical issues
-   - How to address them
-
-6. PRICING ANALYSIS
-   - Is price realistic?
-   - Recommended price range
-   - Payment method recommendations for Africa (Paystack, Flutterwave, etc.)
-
-7. REVENUE POTENTIAL
-   - Conservative estimate
-   - Optimistic estimate
-   - Break-even timeline
-
-8. MARKET VALIDATION
-   - How to validate the market
-   - Potential customer acquisition cost
-   - Realistic CAC for Africa
-
-9. GO/NO-GO VERDICT
-   - Clear recommendation
-   - If GO: Top 3 action items
-   - If NO: Why and alternatives
-
-10. AFRICAN MARKET SPECIFIC
-   - Opportunities in Africa
-   - Challenges in Africa
-   - Regional recommendations (Nigeria, Benin, Senegal, Ghana, Kenya, etc.)
-
-Be honest and brutal. This is for someone making a real business decision.`;
+    const prompt = `Analyze this digital product: Name: ${name}, Description: ${desc}, Format: ${format}, Price: ${price} XOF, Audience: ${audience}. Provide: 1) Viability Score (0-100) 2) Market Demand 3) Competition 4) Strengths 5) Weaknesses 6) Pricing Analysis 7) Revenue Potential 8) Market Validation 9) GO/NO-GO 10) African Market Specific.`;
 
     showResultLoading('analyzerResult', 'analysisList', t('Analyzing...', 'Analyse en cours...'));
     
-    const result = await callClaude(prompt, 4000);
+    const result = await callClaude(prompt, 2500);
     displayResult('analyzerResult', 'analysisList', result);
     analysisCount++;
     updateStats();
@@ -398,276 +386,151 @@ Be honest and brutal. This is for someone making a real business decision.`;
 // ==================== 4. COMPETITOR SPY ====================
 
 async function spyCompetitor() {
-    const name = document.getElementById('competitorName').value;
-    const info = document.getElementById('competitorInfo').value;
+    console.log('🕵️ Analyzing competitor...');
+    
+    const nameInput = document.getElementById('competitorName');
+    const infoInput = document.getElementById('competitorInfo');
+    
+    const name = nameInput ? nameInput.value : '';
+    const info = infoInput ? infoInput.value : '';
     
     if (!name) {
-        alert(t('Please enter a competitor name!', 'Veuillez entrer un nom de concurrent!'));
+        alert(t('Please enter competitor name!', 'Veuillez entrer un nom de concurrent!'));
         return;
     }
     
-    const prompt = `Analyze this competitor/product for someone entering their market: "${name}"
+    const prompt = `Analyze competitor/product: "${name}". Info: ${info}. Provide: 1) Real Strengths 2) Weaknesses 3) Marketing Strategy 4) Customer Avatar 5) How to Beat Them 6) Revenue Estimate 7) Partnerships 8) Your Competitive Position.`;
 
-What you know: ${info || 'Not much, analyze based on the name'}
-
-Provide detailed intelligence:
-
-1. REAL STRENGTHS
-   - What they do well
-   - Why customers buy from them
-   - Competitive advantages
-
-2. CRITICAL WEAKNESSES
-   - What's NOT working
-   - Customer complaints/reviews
-   - Gaps in their offering
-
-3. MARKETING STRATEGY
-   - How they acquire customers
-   - Advertising channels used
-   - Messaging strategy
-   - Pricing strategy
-
-4. CUSTOMER AVATAR
-   - Who buys from them
-   - Pain points they solve
-   - Buying psychology
-
-5. HOW TO BEAT THEM
-   - Underserved segments
-   - Better positioning angles
-   - Product improvements
-   - Price advantages
-
-6. REVENUE ESTIMATE
-   - Estimated monthly revenue
-   - Scaling potential
-   - Sustainability
-
-7. PARTNERSHIP OPPORTUNITIES
-   - Can you work with them?
-   - Cross-selling potential
-
-8. YOUR COMPETITIVE POSITION
-   - Your advantages
-   - Your risks
-   - Recommended differentiation
-
-Be specific. Base on real market dynamics.`;
-
-    showResultLoading('competitorResult', 'competitorList', t('Analyzing competitor...', 'Analyse du concurrent...'));
+    showResultLoading('competitorResult', 'competitorList', t('Analyzing...', 'Analyse...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2000);
     displayResult('competitorResult', 'competitorList', result);
 }
 
 // ==================== 5. TREND PREDICTOR ====================
 
 async function predictTrends() {
-    const keyword = document.getElementById('trendKeyword').value;
-    const platform = document.getElementById('trendPlatform').value;
+    console.log('📈 Predicting trends...');
+    
+    const keywordInput = document.getElementById('trendKeyword');
+    const platformInput = document.getElementById('trendPlatform');
+    
+    const keyword = keywordInput ? keywordInput.value : '';
+    const platform = platformInput ? platformInput.value : 'Google Trends';
     
     if (!keyword) {
-        alert(t('Please enter a keyword!', 'Veuillez entrer un mot-clé!'));
+        alert(t('Please enter keyword!', 'Veuillez entrer un mot-clé!'));
         return;
     }
     
-    const prompt = `Analyze trends for: "${keyword}" on ${platform}
+    const prompt = `Analyze trends for "${keyword}" on ${platform}. Provide: 1) Current Status 2) Historical Data 3) Seasonality 4) Geographic Insights 5) Related Keywords 6) Competitor Presence 7) Trend Forecast 8) Opportunity Timing 9) Content Strategy 10) Monetization Timing.`;
 
-Provide detailed trend analysis:
-
-1. CURRENT TREND STATUS
-   - Rising, stable, declining?
-   - Growth percentage
-   - Search volume
-
-2. HISTORICAL TREND DATA
-   - 3-month trend
-   - 6-month trend
-   - Year-over-year comparison
-
-3. SEASONALITY
-   - Best times to launch
-   - Peak months
-   - Off-season strategies
-
-4. GEOGRAPHIC INSIGHTS
-   - Where is it trending most?
-   - African markets showing interest?
-   - International opportunities
-
-5. RELATED KEYWORDS
-   - What searches drive it?
-   - Long-tail opportunities
-   - Semantic connections
-
-6. COMPETITOR TREND PRESENCE
-   - Who's capturing the trend?
-   - Trending products in this space
-   - Market saturation level
-
-7. PREDICTED TREND TRAJECTORY
-   - Will it grow or decline?
-   - 3-month forecast
-   - 12-month forecast
-
-8. OPPORTUNITY TIMING
-   - Time to enter (now/wait/too late)?
-   - Window of opportunity
-   - Action timeline
-
-9. CONTENT STRATEGY
-   - What type of content ranks?
-   - Topics to cover
-   - Engagement patterns
-
-10. MONETIZATION TIMING
-   - When to launch
-   - Pricing strategy
-   - Revenue potential at different timeline points
-
-Use Google Trends data, social media signals, and search behavior patterns.`;
-
-    showResultLoading('trendResult', 'trendList', t('Predicting trends...', 'Prédiction des tendances...'));
+    showResultLoading('trendResult', 'trendList', t('Predicting...', 'Prédiction...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2000);
     displayResult('trendResult', 'trendList', result);
 }
 
 // ==================== 6. MARKET VALIDATOR ====================
 
 async function validateMarket() {
-    const product = document.getElementById('marketProduct').value;
-    const desc = document.getElementById('marketDesc').value;
-    const market = document.getElementById('marketTarget').value;
+    console.log('✅ Validating market...');
+    
+    const productInput = document.getElementById('marketProduct');
+    const descInput = document.getElementById('marketDesc');
+    const marketInput = document.getElementById('marketTarget');
+    
+    const product = productInput ? productInput.value : '';
+    const desc = descInput ? descInput.value : '';
+    const market = marketInput ? marketInput.value : '';
     
     if (!product || !market) {
         alert(t('Please fill all fields!', 'Veuillez remplir tous les champs!'));
         return;
     }
     
-    const prompt = `Validate if this product has a viable market:
+    const prompt = `Validate market for product: "${product}", Description: ${desc}, Target: ${market}. Provide: 1) Market Size 2) Demand Score 3) Saturation 4) Willingness to Pay 5) CAC Estimate 6) Validation Evidence 7) GO/NO-GO 8) Validation Checklist 9) Resources Needed 10) Next Steps.`;
 
-PRODUCT: ${product}
-DESCRIPTION: ${desc}
-TARGET MARKET: ${market}
-
-Provide market validation scoring:
-
-1. MARKET SIZE ASSESSMENT
-   - Total addressable market (TAM)
-   - Serviceable addressable market (SAM)
-   - Serviceable obtainable market (SOM)
-
-2. MARKET DEMAND SCORE (0-100)
-   - Customer willingness to pay
-   - Pain point severity
-   - Frequency of need
-
-3. MARKET SATURATION ANALYSIS
-   - Number of competitors
-   - Market room for new players
-   - Differentiation difficulty
-
-4. CUSTOMER WILLINGNESS TO PAY
-   - Price sensitivity
-   - Value perception
-   - Pricing benchmarks
-
-5. ACQUISITION COST ESTIMATE
-   - Customer acquisition cost (CAC)
-   - Lifetime value (LTV)
-   - CAC:LTV ratio
-
-6. MARKET VALIDATION EVIDENCE
-   - What validates this market?
-   - What invalidates it?
-   - Risk factors
-
-7. GO/NO-GO/WAIT DECISION
-   - GO: Launch now
-   - NO-GO: Don't pursue
-   - WAIT: Market not ready yet
-
-8. VALIDATION CHECKLIST
-   - What to validate
-   - How to validate
-   - Metrics to track
-
-9. RESOURCE REQUIREMENTS
-   - Minimum budget to test
-   - Timeline to validation
-   - Skills needed
-
-10. NEXT STEPS
-   - Immediate actions
-   - Validation experiments
-   - Pivot points
-
-Be honest about market viability. This determines if they should continue.`;
-
-    showResultLoading('validatorResult', 'validatorList', t('Validating market...', 'Validation du marché...'));
+    showResultLoading('validatorResult', 'validatorList', t('Validating...', 'Validation...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2000);
     displayResult('validatorResult', 'validatorList', result);
 }
 
 // ==================== 7. ANGLE GENERATOR ====================
 
 async function generateAngles() {
-    const product = document.getElementById('angleProduct').value;
-    const desc = document.getElementById('angleDesc').value;
-    const target = document.getElementById('angleTarget').value;
+    console.log('🎯 Generating angles...');
+    
+    const productInput = document.getElementById('angleProduct');
+    const descInput = document.getElementById('angleDesc');
+    const targetInput = document.getElementById('angleTarget');
+    
+    const product = productInput ? productInput.value : '';
+    const desc = descInput ? descInput.value : '';
+    const target = targetInput ? targetInput.value : '';
     
     if (!product || !target) {
-        alert(t('Please fill all fields!', 'Veuillez remplir tous les champs!'));
+        alert(t('Please fill required fields!', 'Veuillez remplir les champs requis!'));
         return;
     }
     
-    const prompt = `Generate 7-10 UNIQUE angles to position and sell: "${product}"
+    const prompt = `Generate 7-10 unique angles to position "${product}". Target: ${target}, Details: ${desc}. For each angle provide: Name, Headline, USP, Target Audience, Pain Point, Transformation, Proof Point, Tagline, Price, Platform, Marketing Channels, Competitive Advantage.`;
 
-Target Audience: ${target}
-Details: ${desc}
-
-For EACH angle provide:
-
-1. ANGLE NAME (catchy)
-2. HEADLINE (emotional trigger)
-3. UNIQUE SELLING PROPOSITION (USP)
-4. TARGET SUB-AUDIENCE (specific segment)
-5. PAIN POINT ADDRESSED (specific problem)
-6. TRANSFORMATION (before/after)
-7. PROOF POINT (why believe it)
-8. TAGLINE (memorable)
-9. PRICE POINT (suggested)
-10. LAUNCH PLATFORM (where to sell it)
-11. MARKETING CHANNELS (how to reach them)
-12. COMPETITIVE ADVANTAGE (vs others)
-
-Make each angle COMPLETELY different. Each should feel like a different product.
-
-Examples of angles:
-- "The lazy person's way to..."
-- "Certified professionals use this because..."
-- "In 30 days or money back..."
-- "The controversial method that..."
-- "Doctors hate this one simple trick..."
-- "For people who failed at..."
-- "The ethical/sustainable/African way to..."
-
-Create 7-10 angles. Make them specific to African markets where relevant.`;
-
-    showResultLoading('angleResult', 'angleList', t('Generating angles...', 'Génération d\'angles...'));
+    showResultLoading('angleResult', 'angleList', t('Generating...', 'Génération...'));
     
-    const result = await callClaude(prompt, 3000);
+    const result = await callClaude(prompt, 2500);
     displayResult('angleResult', 'angleList', result);
 }
 
 // ==================== 8. MONETIZATION HUB ====================
 
 async function generateMonetization() {
-    const product = document.getElementById('monetProduct').value;
-    const format = document.getElementById('monetFormat').value;
+    console.log('💰 Generating monetization...');
+    
+    const productInput = document.getElementById('monetProduct');
+    const formatInput = document.getElementById('monetFormat');
+    
+    const product = productInput ? productInput.value : '';
+    const format = formatInput ? formatInput.value : 'Ebook';
     
     if (!product) {
-        alert(t('Please enter product name!', 'Veuillez entrer le no
+        alert(t('Please enter product!', 'Veuillez entrer le produit!'));
+        return;
+    }
+    
+    const prompt = `Generate 5-8 revenue streams for "${product}" (${format}). For each provide: Name, Description, Effort, Time, Revenue Potential, Target Customers, Pricing, Implementation Steps, Challenges, Success Metrics.`;
+
+    showResultLoading('monetResult', 'monetList', t('Generating...', 'Génération...'));
+    
+    const result = await callClaude(prompt, 2000);
+    displayResult('monetResult', 'monetList', result);
+}
+
+// ==================== 9. SELLING STRATEGY ====================
+
+async function generateSellingStrategy() {
+    console.log('💼 Generating selling strategy...');
+    
+    const productInput = document.getElementById('saleProduct');
+    const targetInput = document.getElementById('saleTarget');
+    const priceInput = document.getElementById('salePrice');
+    
+    const product = productInput ? productInput.value : '';
+    const target = targetInput ? targetInput.value : '';
+    const price = priceInput ? priceInput.value : '0';
+    
+    if (!product || !price) {
+        alert(t('Please fill required fields!', 'Veuillez remplir les champs requis!'));
+        return;
+    }
+    
+    const prompt = `Create 28-day selling strategy for "${product}". Target: ${target}, Price: ${price} XOF. Provide: Day 1-3 Pre-Launch, Day 4-7 Soft Launch, Day 8-14 Full Launch, Day 15-21 Momentum, Day 22-28 Closing. Include copy, email sequences, social media posts, ad copy, KPIs, budget.`;
+
+    showResultLoading('saleResult', 'saleList', t('Generating...', 'Génération...'));
+    
+    const result = await callClaude(prompt, 3000);
+    displayResult('saleResult', 'saleList', result);
+}
+
+// ==================== 1
