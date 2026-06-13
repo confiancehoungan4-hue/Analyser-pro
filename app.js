@@ -2,7 +2,7 @@
 
 const SUPABASE_URL = https://acqeocpbzcuzkightxno.supabase.co
 const SUPABASE_KEY = sb_publishable_L236Ip5AoGUfONwK89DLBg_LiP7t_-8
-const CLAUDE_API_KEY = 'sk-ant-YOUR-KEY-HERE'; // Tu la rajouteras
+const CLAUDE_API_KEY = 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
 
 let currentUser = null;
 let authToken = null;
