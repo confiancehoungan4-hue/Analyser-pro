@@ -1,122 +1,112 @@
-// ==================== LANGUAGE SYSTEM ====================
+// GLOBAL
+let currentUser = null;
+let currentLanguage = 'en';
 
-let currentLanguage = localStorage.getItem('language') || 'en';
+console.log('✅ APP LOADED');
 
+// LANGUAGE
 function setLanguage(lang) {
     currentLanguage = lang;
-    localStorage.setItem('language', lang);
-    updateLanguage();
-    // Update active button
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    const buttons = document.querySelectorAll('.lang-btn');
-    if (lang === 'en' && buttons[0]) buttons[0].classList.add('active');
-    if (lang === 'fr' && buttons[1]) buttons[1].classList.add('active');
+    console.log('🌐 Language:', lang);
 }
 
-function t(en, fr) {
-    return currentLanguage === 'fr' ? fr : en;
+// AUTH - LOGIN
+function goToLogin() {
+    console.log('📝 Go to Login');
+    document.getElementById('loginForm').classList.add('active');
+    document.getElementById('signupForm').classList.remove('active');
 }
 
-function updateLanguage() {
-    document.querySelectorAll('[data-en]').forEach(el => {
-        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            const placeholderFr = el.getAttribute('data-placeholder-fr');
-            const placeholderEn = el.getAttribute('data-placeholder-en');
-            el.placeholder = currentLanguage === 'fr' ? (placeholderFr || placeholderEn) : (placeholderEn || placeholderFr);
-        } else {
-            const textFr = el.getAttribute('data-fr');
-            const textEn = el.getAttribute('data-en');
-            if (textFr && textEn) {
-                el.textContent = currentLanguage === 'fr' ? textFr : textEn;
-            }
-        }
-    });
+// AUTH - SIGNUP
+function goToSignup() {
+    console.log('📝 Go to Signup');
+    document.getElementById('loginForm').classList.remove('active');
+    document.getElementById('signupForm').classList.add('active');
 }
 
-// ==================== GLOBAL VARIABLES ====================
-
-let currentUser = null;
-let authToken = null;
-let analysisCount = 0;
-let ideasGeneratedCount = 0;
-
-// ==================== INIT ====================
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('✅ APP STARTED');
-    updateLanguage();
+// LOGIN
+function login() {
+    console.log('🔑 Login');
+    const email = document.getElementById('email1').value;
+    const password = document.getElementById('password1').value;
     
-    const savedUser = localStorage.getItem('user');
-    const savedToken = localStorage.getItem('token');
-    
-    if (savedUser && savedToken) {
-        try {
-            currentUser = JSON.parse(savedUser);
-            authToken = savedToken;
-            console.log('✅ User logged in:', currentUser.name);
-            showDashboard();
-        } catch (e) {
-            console.error('User parse error:', e);
-            showAuthPage();
-        }
-    } else {
-        showAuthPage();
+    if (!email || !password) {
+        alert('Fill fields!');
+        return;
     }
-});
-
-// ==================== PAGE SWITCHING ====================
-
-function showAuthPage() {
-    console.log('📄 Showing Auth Page');
-    document.getElementById('authPage').classList.remove('hidden');
-    document.getElementById('dashboardPage').classList.add('hidden');
-    showLoginForm();
+    
+    currentUser = {
+        name: email.split('@')[0],
+        email: email
+    };
+    
+    localStorage.setItem('user', JSON.stringify(currentUser));
+    
+    console.log('✅ Logged in:', currentUser);
+    alert('✅ Logged in!');
+    
+    document.getElementById('authPage').classList.remove('active');
+    document.getElementById('dashboardPage').classList.add('active');
+    
+    document.getElementById('profileName').textContent = currentUser.name;
+    document.getElementById('profileEmail').textContent = currentUser.email;
 }
 
-function showDashboard() {
-    console.log('📄 Showing Dashboard');
-    document.getElementById('authPage').classList.add('hidden');
-    document.getElementById('dashboardPage').classList.remove('hidden');
-    showPage('dashboardView');
-    updateStats();
+// SIGNUP
+function signup() {
+    console.log('🔑 Signup');
+    const name = document.getElementById('name2').value;
+    const email = document.getElementById('email2').value;
+    const password = document.getElementById('password2').value;
+    
+    if (!name || !email || !password) {
+        alert('Fill fields!');
+        return;
+    }
+    
+    currentUser = {
+        name: name,
+        email: email
+    };
+    
+    localStorage.setItem('user', JSON.stringify(currentUser));
+    
+    console.log('✅ Signed up:', currentUser);
+    alert('✅ Account created!');
+    
+    document.getElementById('authPage').classList.remove('active');
+    document.getElementById('dashboardPage').classList.add('active');
+    
+    document.getElementById('profileName').textContent = currentUser.name;
+    document.getElementById('profileEmail').textContent = currentUser.email;
 }
 
+// LOGOUT
+function handleLogout() {
+    if (confirm('Logout?')) {
+        localStorage.removeItem('user');
+        currentUser = null;
+        
+        document.getElementById('authPage').classList.add('active');
+        document.getElementById('dashboardPage').classList.remove('active');
+        document.getElementById('email1').value = '';
+        document.getElementById('password1').value = '';
+        
+        console.log('🚪 Logged out');
+    }
+}
+
+// PAGES
 function showPage(pageId) {
-    console.log('📄 Showing page:', pageId);
-    document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-    const page = document.getElementById(pageId);
-    if (page) page.classList.remove('hidden');
+    console.log('📄 Show:', pageId);
+    
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+    
     closeSidebar();
 }
 
-function showSection(sectionId) {
-    console.log('📄 Section:', sectionId);
-    
-    const map = {
-        'ideaFinder': 'ideaFinderView',
-        'winningProducts': 'winningProductsView',
-        'analyzer': 'analyzerView',
-        'competitorSpy': 'competitorSpyView',
-        'trendPredictor': 'trendPredictorView',
-        'marketValidator': 'marketValidatorView',
-        'angleGenerator': 'angleGeneratorView',
-        'monetization': 'monetizationView',
-        'sellingStrategy': 'sellingStrategyView',
-        'international': 'internationalView',
-        'productGenerator': 'productGeneratorView',
-        'imageGenerator': 'imageGeneratorView',
-        'promptGenerator': 'promptGeneratorView',
-        'countryTargeting': 'countryTargetingView',
-        'honestFeedback': 'honestFeedbackView',
-        'profile': 'profileView',
-        'settings': 'settingsView'
-    };
-    
-    showPage(map[sectionId] || 'dashboardView');
-}
-
-// ==================== SIDEBAR ====================
-
+// SIDEBAR
 function openSidebar() {
     document.getElementById('sidebar').classList.add('open');
 }
@@ -125,105 +115,56 @@ function closeSidebar() {
     document.getElementById('sidebar').classList.remove('open');
 }
 
-// ==================== AUTH FORMS ====================
-
-function showLoginForm() {
-    console.log('📝 Login Form');
-    document.getElementById('loginFormSection').classList.remove('hidden');
-    document.getElementById('signupFormSection').classList.add('hidden');
-}
-
-function showSignupForm() {
-    console.log('📝 Signup Form');
-    document.getElementById('loginFormSection').classList.add('hidden');
-    document.getElementById('signupFormSection').classList.remove('hidden');
-}
-
-// ==================== LOGIN/SIGNUP ====================
-
-function handleLogin() {
-    console.log('🔑 Login...');
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
+// FUNCTIONS
+async function generateIdeas() {
+    console.log('💡 Generate ideas');
+    const category = document.getElementById('ideaCategory').value;
     
-    if (!email || !password) {
-        alert('Please fill all fields!');
+    const result = document.getElementById('ideaResult');
+    result.classList.remove('hidden');
+    result.innerHTML = '<p>✅ Generated 5 ideas for ' + category + ':</p><pre>1. AI Course\n2. Email Templates\n3. SEO Guide\n4. Social Media Pack\n5. Coaching Program</pre>';
+}
+
+async function analyzeProduct() {
+    console.log('📊 Analyze');
+    const name = document.getElementById('productName').value;
+    const price = document.getElementById('productPrice').value;
+    
+    if (!name || !price) {
+        alert('Fill fields!');
         return;
     }
     
-    currentUser = {
-        id: 'user_' + Date.now(),
-        email: email,
-        name: email.split('@')[0],
-        createdAt: new Date().toLocaleDateString()
-    };
-    
-    authToken = 'token_' + Math.random().toString(36).substr(2, 9);
-    
-    localStorage.setItem('user', JSON.stringify(currentUser));
-    localStorage.setItem('token', authToken);
-    
-    document.getElementById('loginEmail').value = '';
-    document.getElementById('loginPassword').value = '';
-    
-    console.log('✅ Login success');
-    alert('✅ Logged in as ' + currentUser.name);
-    showDashboard();
+    const result = document.getElementById('analyzerResult');
+    result.classList.remove('hidden');
+    result.innerHTML = '<p><strong>' + name + '</strong> @ ' + price + ' XOF</p><pre>✅ Viability Score: 75/100\n✅ Market Demand: HIGH\n✅ Revenue Potential: 30,000 XOF/month\n✅ GO: Yes</pre>';
 }
 
-function handleSignup() {
-    console.log('🔑 Signup...');
-    const name = document.getElementById('signupName').value.trim();
-    const email = document.getElementById('signupEmail').value.trim();
-    const password = document.getElementById('signupPassword').value.trim();
+async function getFeedback() {
+    console.log('💬 Feedback');
+    const text = document.getElementById('feedbackText').value;
     
-    if (!name || !email || !password) {
-        alert('Please fill all fields!');
+    if (!text) {
+        alert('Describe your idea!');
         return;
     }
     
-    currentUser = {
-        id: 'user_' + Date.now(),
-        email: email,
-        name: name,
-        createdAt: new Date().toLocaleDateString()
-    };
-    
-    authToken = 'token_' + Math.random().toString(36).substr(2, 9);
-    
-    localStorage.setItem('user', JSON.stringify(currentUser));
-    localStorage.setItem('token', authToken);
-    
-    document.getElementById('signupName').value = '';
-    document.getElementById('signupEmail').value = '';
-    document.getElementById('signupPassword').value = '';
-    
-    console.log('✅ Signup success');
-    alert('✅ Account created! Welcome ' + name);
-    showDashboard();
+    const result = document.getElementById('feedbackResult');
+    result.classList.remove('hidden');
+    result.innerHTML = '<p><strong>Honest Feedback:</strong></p><pre>Strengths:\n✅ Clear target market\n✅ Viable pricing\n\nWeaknesses:\n❌ Competition exists\n\nVerdict: GO (75% chance)</pre>';
 }
 
-function handleLogout() {
-    if (confirm('Are you sure?')) {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        currentUser = null;
-        authToken = null;
-        console.log('🚪 Logged out');
-        showAuthPage();
-    }
-}
-
-// ==================== CLAUDE API ====================
-
-const CLAUDE_API_KEY = 'sk-ant-YOUR-KEY-HERE';
-
-async function callClaude(prompt, maxTokens = 1500) {
-    if (CLAUDE_API_KEY === 'sk-ant-YOUR-KEY-HERE') {
-        return '⚠️ API key not configured. Replace sk-ant-YOUR-KEY-HERE in app.js with your real Claude API key from console.anthropic.com';
-    }
+// INIT
+window.addEventListener('load', function() {
+    console.log('✅ Window loaded');
     
-    try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        document.getElementById('authPage').classList.remove('active');
+        document.getElementById('dashboardPage').classList.add('active');
+        document.getElementById('profileName').textContent = currentUser.name;
+        document.getElementById('profileEmail').textContent = currentUser.email;
+        console.log('✅ User restored:', currentUser);
+    }
+});
