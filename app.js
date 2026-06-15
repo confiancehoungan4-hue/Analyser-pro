@@ -1,7 +1,7 @@
 // ====== CONFIGURATION SUPABASE ======
 // Remplace ces 2 valeurs par celles de TON projet :
 // Tableau de bord Supabase > Project Settings > API
-const SUPABASE_URL = https: 'https://oznfsajhdxhykzivhumd.supabase.co';
+const SUPABASE_URL = 'https://oznfsajhdxhykzivhumd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2oZY-aRcKRbuz2lMXH6wdA_X38zNOt5';
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
