@@ -1,159 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyzer Pro</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analyzer Pro — Ton copilote IA</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <div class="nav-left">
-            <div class="nav-brand">🚀 Analyzer Pro</div>
-        </div>
-        <div class="nav-center">
-            <div class="language-switcher">
-                <button class="lang-btn active" onclick="setLanguage('en')">English</button>
-                <button class="lang-btn" onclick="setLanguage('fr')">Français</button>
-            </div>
-        </div>
-        <div class="nav-right" id="navRight">
-            <button class="btn-login" id="btnLogin" onclick="goToLogin()">Login</button>
-            <button class="btn-signup" id="btnSignup" onclick="goToSignup()">Sign Up</button>
-        </div>
-    </nav>
 
-    <!-- AUTH PAGE -->
-    <div id="authPage" class="page active">
-        <div class="auth-container">
-            <!-- LOGIN FORM -->
-            <div id="loginForm" class="form-container active">
-                <h2>Login</h2>
-                <input type="email" id="email1" placeholder="Email" />
-                <input type="password" id="password1" placeholder="Password" />
-                <button class="btn-primary" onclick="login()">Sign In</button>
-                <p>Don't have account? <a onclick="goToSignup()">Sign Up</a></p>
-            </div>
+<!-- ======= LANDING / AUTH ======= -->
+<div id="landingPage" class="page active">
+  <div class="landing-header">
+    <div class="logo">🚀 <span>Analyzer Pro</span></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
 
-            <!-- SIGNUP FORM -->
-            <div id="signupForm" class="form-container">
-                <h2>Create Account</h2>
-                <input type="text" id="name2" placeholder="Your Name" />
-                <input type="email" id="email2" placeholder="Email" />
-                <input type="password" id="password2" placeholder="Password" />
-                <button class="btn-primary" onclick="signup()">Create Account</button>
-                <p>Already have account? <a onclick="goToLogin()">Sign In</a></p>
-            </div>
-        </div>
+  <div class="hero-section">
+    <h1>Ton copilote IA pour <span>lancer & vendre</span> en Afrique</h1>
+    <p data-t="subtitle">17 outils IA pour trouver, valider, créer et vendre tes produits digitaux</p>
+    <div class="hero-badges">
+      <span class="hero-badge">📦 Produits digitaux</span>
+      <span class="hero-badge">🛒 E-commerce</span>
+      <span class="hero-badge">💼 Freelance</span>
+      <span class="hero-badge">🎬 Créateurs</span>
+      <span class="hero-badge">💰 XOF & Mobile Money</span>
+    </div>
+    <button class="btn-white" onclick="showAuthForm('signup')" style="width:auto;padding:12px 32px;font-size:1rem;margin-bottom:10px">Commencer gratuitement →</button><br>
+    <button class="btn-outline-white" onclick="showAuthForm('login')" style="width:auto;padding:10px 24px">Déjà un compte</button>
+  </div>
+
+  <!-- Forms -->
+  <div class="auth-form-wrap">
+    <div id="loginForm" class="hidden">
+      <h2 data-t="login">Connexion</h2>
+      <input type="email" id="em1" data-t-ph="emailPh" placeholder="Ton email">
+      <input type="password" id="pw1" data-t-ph="pwPh" placeholder="Ton mot de passe">
+      <button class="btn-primary" onclick="login()" data-t="signIn">Se connecter</button>
+      <p class="switch-link"><a href="#" onclick="showAuthForm('signup')" data-t="toSignup">Pas encore de compte ? S'inscrire</a></p>
+    </div>
+    <div id="signupForm" class="hidden">
+      <h2 data-t="signup">Créer un compte</h2>
+      <input type="text" id="nm2" data-t-ph="namePh" placeholder="Ton prénom et nom">
+      <input type="email" id="em2" data-t-ph="emailPh" placeholder="Ton email">
+      <input type="password" id="pw2" data-t-ph="pwPh" placeholder="Choisis un mot de passe">
+      <button class="btn-primary" onclick="signup()" data-t="createAcc">Créer mon compte</button>
+      <p class="switch-link"><a href="#" onclick="showAuthForm('login')" data-t="toLogin">Déjà un compte ? Se connecter</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ======= PROFILE SELECTOR ======= -->
+<div id="profileSelectorPage" class="page">
+  <div style="max-width:480px;margin:0 auto;padding:20px">
+    <div class="profile-sel-header">
+      <div style="font-size:2.5rem;margin-bottom:12px">🎯</div>
+      <h1 data-t="profileSelTitle">Quel est ton profil ?</h1>
+      <p data-t="profileSelSub">Ton IA s'adapte à ta réalité</p>
+    </div>
+    <div class="profile-grid" id="profileGrid"></div>
+    <button class="btn-primary" onclick="saveProfile()" data-t="continue" style="margin-top:8px">Continuer →</button>
+  </div>
+</div>
+
+<!-- ======= PAYWALL ======= -->
+<div id="paywallPage" class="page">
+  <div style="max-width:480px;margin:0 auto;padding:20px">
+    <div class="paywall-header">
+      <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
+      <h1>Accède aux <span>17 outils IA</span></h1>
+      <p data-t="paywallSub">Trouve, valide, crée et vends tes produits digitaux en Afrique</p>
+    </div>
+    <div class="modules-preview" id="modulesPreview"></div>
+    <div class="paywall-offer">
+      <div style="font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:4px" data-t="betaOffer">🔥 Offre Beta limitée</div>
+      <div class="price">10 000 <span>XOF</span></div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:12px" data-t="betaDuration">3 mois d'accès complet, une seule fois</div>
+      <ul class="perks">
+        <li data-t="perk1">17 modules IA actifs</li>
+        <li data-t="perk2">Adapté au marché africain (XOF, Mobile Money)</li>
+        <li data-t="perk3">Mises à jour incluses pendant 3 mois</li>
+        <li data-t="perk4">Accès illimité à tous les modules</li>
+      </ul>
+    </div>
+    <button class="btn-pay" id="fedapay-btn" data-t="payBtn">💳 Payer 10 000 XOF — MTN | Moov | Carte</button>
+    <p style="text-align:center;color:rgba(255,255,255,.5);font-size:.8rem;margin-top:10px" data-t="paySecure">🔒 Paiement sécurisé via FedaPay</p>
+    <button onclick="handleLogout()" style="width:100%;background:none;border:none;color:rgba(255,255,255,.4);padding:12px;cursor:pointer;font-size:.85rem;margin-top:6px" data-t="logout">Se déconnecter</button>
+  </div>
+</div>
+
+<!-- ======= DASHBOARD ======= -->
+<div id="dashboardPage" class="page">
+  <!-- Sidebar overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span>🚀 Analyzer Pro</span>
+      <button onclick="closeSidebar()">✕</button>
+    </div>
+    <nav id="sidebarNav"></nav>
+  </div>
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <button class="menu-btn" onclick="openSidebar()">☰</button>
+    <span class="topbar-logo">🚀 Analyzer Pro</span>
+    <div class="lang-switcher-sm">
+      <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="main-content">
+
+    <!-- HOME -->
+    <div id="homePage" class="view active">
+      <div class="home-hero">
+        <h1 data-t="welcome">Bienvenue 👋</h1>
+        <p data-t="homeSubtitle">Que veux-tu faire aujourd'hui ?</p>
+        <div class="profile-badge" id="profileBadge"></div>
+      </div>
+      <div id="homeModules"></div>
     </div>
 
-    <!-- DASHBOARD PAGE -->
-    <div id="dashboardPage" class="page">
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h3>Menu</h3>
-                <button class="close-sidebar" onclick="closeSidebar()">✕</button>
-            </div>
-            <ul class="sidebar-menu">
-                <li><a onclick="showPage('dashboardView')">Dashboard</a></li>
-                <li><a onclick="showPage('ideaFinderView')">💡 Idea Finder</a></li>
-                <li><a onclick="showPage('analyzerView')">📊 Analyzer</a></li>
-                <li><a onclick="showPage('feedbackView')">💬 Feedback</a></li>
-                <li><a onclick="showPage('profileView')">👤 Profile</a></li>
-                <li><a onclick="handleLogout()">🚪 Logout</a></li>
-            </ul>
-        </div>
-
-        <div class="main-content">
-            <!-- DASHBOARD VIEW -->
-            <div id="dashboardView" class="view active">
-                <div class="container">
-                    <div class="view-header">
-                        <button class="menu-toggle" onclick="openSidebar()">☰</button>
-                        <h1>Welcome! 🎉</h1>
-                    </div>
-                    <p class="subtitle">Your AI-powered product analysis tool</p>
-                    <div class="quick-menu">
-                        <button class="menu-btn" onclick="showPage('ideaFinderView')">💡 Idea Finder</button>
-                        <button class="menu-btn" onclick="showPage('analyzerView')">📊 Analyzer</button>
-                        <button class="menu-btn" onclick="showPage('feedbackView')">💬 Feedback</button>
-                        <button class="menu-btn" onclick="showPage('profileView')">👤 Profile</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- IDEA FINDER VIEW -->
-            <div id="ideaFinderView" class="view">
-                <div class="container">
-                    <div class="view-header">
-                        <button class="menu-toggle" onclick="openSidebar()">☰</button>
-                        <h1>💡 Idea Finder</h1>
-                    </div>
-                    <div class="form-group">
-                        <label>Category:</label>
-                        <select id="ideaCategory">
-                            <option>Marketing</option>
-                            <option>Education</option>
-                            <option>Business</option>
-                            <option>Technology</option>
-                        </select>
-                    </div>
-                    <button class="btn-primary" onclick="generateIdeas()">Generate Ideas</button>
-                    <div id="ideaResult" class="result-container hidden"></div>
-                    <button class="btn-secondary" onclick="showPage('dashboardView')">Back</button>
-                </div>
-            </div>
-
-            <!-- ANALYZER VIEW -->
-            <div id="analyzerView" class="view">
-                <div class="container">
-                    <div class="view-header">
-                        <button class="menu-toggle" onclick="openSidebar()">☰</button>
-                        <h1>📊 Product Analyzer</h1>
-                    </div>
-                    <input type="text" id="productName" placeholder="Product Name" />
-                    <textarea id="productDesc" placeholder="Product Description"></textarea>
-                    <input type="number" id="productPrice" placeholder="Price (XOF)" />
-                    <button class="btn-primary" onclick="analyzeProduct()">Analyze</button>
-                    <div id="analyzerResult" class="result-container hidden"></div>
-                    <button class="btn-secondary" onclick="showPage('dashboardView')">Back</button>
-                </div>
-            </div>
-
-            <!-- FEEDBACK VIEW -->
-            <div id="feedbackView" class="view">
-                <div class="container">
-                    <div class="view-header">
-                        <button class="menu-toggle" onclick="openSidebar()">☰</button>
-                        <h1>💬 Get Feedback</h1>
-                    </div>
-                    <textarea id="feedbackText" placeholder="Describe your idea..."></textarea>
-                    <button class="btn-primary" onclick="getFeedback()">Get Feedback</button>
-                    <div id="feedbackResult" class="result-container hidden"></div>
-                    <button class="btn-secondary" onclick="showPage('dashboardView')">Back</button>
-                </div>
-            </div>
-
-            <!-- PROFILE VIEW -->
-            <div id="profileView" class="view">
-                <div class="container">
-                    <div class="view-header">
-                        <button class="menu-toggle" onclick="openSidebar()">☰</button>
-                        <h1>👤 Profile</h1>
-                    </div>
-                    <div class="profile-card">
-                        <h2 id="profileName">User</h2>
-                        <p id="profileEmail">email@example.com</p>
-                    </div>
-                    <button class="btn-secondary" onclick="showPage('dashboardView')">Back</button>
-                </div>
-            </div>
-        </div>
+    <!-- MODULE (dynamique) -->
+    <div id="modulePage" class="view">
+      <div class="page-header">
+        <button class="menu-btn" onclick="showView('homePage')">←</button>
+        <h2 id="moduleTitle"></h2>
+      </div>
+      <div class="form-card">
+        <div id="moduleForm"></div>
+        <button class="btn-primary" id="moduleBtn" onclick="runCurrentModule()">Analyser</button>
+        <div id="moduleResult" class="result-box hidden"></div>
+        <button class="btn-back" onclick="showView('homePage')" data-t="back">← Retour</button>
+      </div>
     </div>
 
-    <!-- SDK Supabase (auth + appels au moteur IA) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-    <script src="app.js"></script>
+    <!-- PROFILE -->
+    <div id="profilePage" class="view">
+      <div class="page-header">
+        <button class="menu-btn" onclick="showView('homePage')">←</button>
+        <h2 data-t="profileTitle">Mon Profil</h2>
+      </div>
+      <div class="form-card">
+        <div class="profile-avatar">👤</div>
+        <h3 id="profileName" class="text-center mt-8"></h3>
+        <p id="profileEmail" class="text-center text-muted text-sm mt-8"></p>
+        <div class="stat-grid mt-12">
+          <div class="stat-card"><div class="stat-label" data-t="statPlan">Plan</div><div class="stat-val" id="statPlan">—</div></div>
+          <div class="stat-card"><div class="stat-label" data-t="statExpiry">Expire le</div><div class="stat-val" id="statExpiry" style="font-size:.9rem">—</div></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-label" data-t="statProfile">Profil</div><div class="stat-val" id="statProfile" style="font-size:.9rem">—</div></div>
+          <div class="stat-card"><div class="stat-label" data-t="statAnalyses">Analyses</div><div class="stat-val" id="statAnalyses">0</div></div>
+        </div>
+        <button class="btn-secondary mt-8" onclick="showProfileSelector(true)" data-t="changeProfile">Changer de profil</button>
+        <button class="btn-back" onclick="handleLogout()" data-t="logout" style="color:#ef4444">🚪 Se déconnecter</button>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settingsPage" class="view">
+      <div class="page-header">
+        <button class="menu-btn" onclick="showView('homePage')">←</button>
+        <h2 data-t="settingsTitle">Paramètres</h2>
+      </div>
+      <div class="form-card">
+        <div class="r-section">
+          <div class="r-section-title" data-t="settingsLang">🌐 Langue</div>
+          <div style="display:flex;gap:10px;margin-top:8px">
+            <button class="btn-primary" style="width:auto;padding:10px 20px" onclick="setLang('fr')">Français</button>
+            <button class="btn-secondary" style="width:auto;padding:10px 20px" onclick="setLang('en')">English</button>
+          </div>
+        </div>
+        <div class="r-section mt-8">
+          <div class="r-section-title" data-t="settingsDelete">⚠️ Supprimer mon compte</div>
+          <p class="text-sm text-muted mt-8" data-t="settingsDeleteDesc">Cette action est irréversible.</p>
+          <button class="btn-back" style="color:#ef4444;text-align:left" onclick="deleteAccount()" data-t="deleteBtn">Supprimer mon compte</button>
+        </div>
+        <button class="btn-back" onclick="showView('homePage')" data-t="back">← Retour</button>
+      </div>
+    </div>
+
+  </div><!-- end main-content -->
+</div><!-- end dashboardPage -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<!-- FedaPay SDK — Remplace YOUR_FEDAPAY_PUBLIC_KEY par ta vraie clé publique -->
+<script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
+<script src="app.js"></script>
 </body>
 </html>
