@@ -1,7 +1,7 @@
 // ====== CONFIG ======
 const SUPABASE_URL = 'https://oznfsajhdxhykzivhumd.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_2oZY-aRcKRbuz2lMXH6wdA_X38zNOt5';
-const FEDAPAY_PUBLIC_KEY = 'pk_live_VOTRE_CLE_FEDAPAY_ICI';
+const FEDAPAY_PUBLIC_KEY = 'pk_live_QbSs9YoX0hORrsi_Bjr7rpK8';
 const MONTANT_XOF = 4900;
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
