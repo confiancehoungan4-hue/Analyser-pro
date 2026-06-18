@@ -12,45 +12,148 @@
 <div id="landingPage" class="page active">
   <div class="landing-header">
     <div class="logo">🚀 <span>Analyzer Pro</span></div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-      </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" data-lang="fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
     </div>
   </div>
-
   <div class="hero-section">
-    <h1>Ton copilote IA pour <span>lancer & vendre</span> en Afrique</h1>
-    <p data-t="subtitle">17 outils IA pour trouver, valider, créer et vendre tes produits digitaux</p>
+    <h1>Trouve, valide et vends tes<br><span>produits digitaux en Afrique</span></h1>
+    <p>17 outils IA adaptés au marché africain — XOF, Mobile Money, TikTok, WhatsApp</p>
     <div class="hero-badges">
-      <span class="hero-badge">📦 Produits digitaux</span>
+      <span class="hero-badge">📦 Infopreneurs</span>
       <span class="hero-badge">🛒 E-commerce</span>
-      <span class="hero-badge">💼 Freelance</span>
       <span class="hero-badge">🎬 Créateurs</span>
-      <span class="hero-badge">💰 XOF & Mobile Money</span>
+      <span class="hero-badge">💼 Freelances</span>
+      <span class="hero-badge">🤖 Experts IA</span>
     </div>
-    <button class="btn-white" onclick="showAuthForm('signup')" style="width:auto;padding:12px 32px;font-size:1rem;margin-bottom:10px">Commencer gratuitement →</button><br>
-    <button class="btn-outline-white" onclick="showAuthForm('login')" style="width:auto;padding:10px 24px">Déjà un compte</button>
+    <button class="btn-white" onclick="showAuthForm('signup')">Commencer gratuitement →</button>
+    <br><br>
+    <button class="btn-outline-white" onclick="showAuthForm('login')">Déjà un compte</button>
   </div>
-
-  <!-- Forms -->
   <div class="auth-form-wrap">
     <div id="loginForm" class="hidden">
-      <h2 data-t="login">Connexion</h2>
-      <input type="email" id="em1" data-t-ph="emailPh" placeholder="Ton email">
-      <input type="password" id="pw1" data-t-ph="pwPh" placeholder="Ton mot de passe">
-      <button class="btn-primary" onclick="login()" data-t="signIn">Se connecter</button>
-      <p class="switch-link"><a href="#" onclick="showAuthForm('signup')" data-t="toSignup">Pas encore de compte ? S'inscrire</a></p>
+      <h2>Connexion</h2>
+      <input type="email" id="em1" placeholder="Ton email">
+      <input type="password" id="pw1" placeholder="Ton mot de passe">
+      <button id="loginBtn" class="btn-primary" onclick="login()">Se connecter</button>
+      <p class="switch-link"><a href="#" onclick="showAuthForm('signup')">Pas encore de compte ? S'inscrire</a></p>
     </div>
     <div id="signupForm" class="hidden">
-      <h2 data-t="signup">Créer un compte</h2>
-      <input type="text" id="nm2" data-t-ph="namePh" placeholder="Ton prénom et nom">
-      <input type="email" id="em2" data-t-ph="emailPh" placeholder="Ton email">
-      <input type="password" id="pw2" data-t-ph="pwPh" placeholder="Choisis un mot de passe">
-      <button class="btn-primary" onclick="signup()" data-t="createAcc">Créer mon compte</button>
-      <p class="switch-link"><a href="#" onclick="showAuthForm('login')" data-t="toLogin">Déjà un compte ? Se connecter</a></p>
+      <h2>Créer un compte</h2>
+      <input type="text" id="nm2" placeholder="Ton prénom et nom">
+      <input type="email" id="em2" placeholder="Ton email">
+      <input type="password" id="pw2" placeholder="Choisis un mot de passe (6+ caractères)">
+      <button id="signupBtn" class="btn-primary" onclick="signup()">Créer mon compte</button>
+      <p class="switch-link"><a href="#" onclick="showAuthForm('login')">Déjà un compte ? Se connecter</a></p>
     </div>
+  </div>
+</div>
+
+<!-- ======= ONBOARDING ======= -->
+<div id="onboardingPage" class="page">
+  <div class="onboarding-wrap">
+    <div class="onboarding-logo">🚀 Analyzer Pro</div>
+
+    <div class="onboarding-step" id="ob1">
+      <div class="ob-icon">🎯</div>
+      <h2>Bienvenue sur Analyzer Pro</h2>
+      <p>Le premier copilote IA conçu pour les entrepreneurs du digital en Afrique de l'Ouest.</p>
+      <div class="ob-cards">
+        <div class="ob-card"><span>💡</span><p>Trouve des idées de produits rentables dans plus de 30 niches</p></div>
+        <div class="ob-card"><span>📊</span><p>Analyse la viabilité de ton produit avant d'investir ton temps</p></div>
+        <div class="ob-card"><span>🚀</span><p>Lance avec un plan complet sur 28 jours, adapté à ton budget</p></div>
+        <div class="ob-card"><span>💰</span><p>Prix en XOF, Mobile Money, conseils pour le marché africain</p></div>
+      </div>
+      <button class="btn-primary" onclick="showObStep(2)">Suivant →</button>
+    </div>
+
+    <div class="onboarding-step hidden" id="ob2">
+      <div class="ob-icon">👥</div>
+      <h2>Pour qui est cet outil ?</h2>
+      <p>Analyzer Pro accompagne tout entrepreneur qui veut vendre en ligne en Afrique.</p>
+      <div class="ob-profiles-grid">
+        <div class="ob-profile"><span>📦</span><p>Vendeurs de produits digitaux</p></div>
+        <div class="ob-profile"><span>🛒</span><p>E-commerçants & Dropshippers</p></div>
+        <div class="ob-profile"><span>🎬</span><p>Créateurs de contenu</p></div>
+        <div class="ob-profile"><span>💼</span><p>Freelances digitaux</p></div>
+        <div class="ob-profile"><span>🎓</span><p>Formateurs en ligne</p></div>
+        <div class="ob-profile"><span>🤝</span><p>Coachs & Consultants</p></div>
+      </div>
+      <button class="btn-primary" onclick="showObStep(3)">Suivant →</button>
+      <button class="btn-back" onclick="showObStep(1)">← Retour</button>
+    </div>
+
+    <div class="onboarding-step hidden" id="ob3">
+      <div class="ob-icon">🗺️</div>
+      <h2>Comment utiliser l'outil ?</h2>
+      <div class="ob-steps">
+        <div class="ob-step-item">
+          <div class="ob-step-num">1</div>
+          <div>
+            <p class="ob-step-title">Choisis ton profil entrepreneur</p>
+            <p class="ob-step-desc">L'IA adapte ses réponses à ta réalité — infopreneur, e-commerçant, créateur...</p>
+          </div>
+        </div>
+        <div class="ob-step-item">
+          <div class="ob-step-num">2</div>
+          <div>
+            <p class="ob-step-title">Teste gratuitement chaque module</p>
+            <p class="ob-step-desc">1 analyse gratuite par module — sans carte, sans engagement.</p>
+          </div>
+        </div>
+        <div class="ob-step-item">
+          <div class="ob-step-num">3</div>
+          <div>
+            <p class="ob-step-title">Passe à l'accès complet</p>
+            <p class="ob-step-desc">4 900 XOF pour 3 mois d'accès illimité aux 17 modules IA.</p>
+          </div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="finishOnboarding()">C'est parti — Choisir mon profil →</button>
+      <button class="btn-back" onclick="showObStep(2)">← Retour</button>
+    </div>
+
+    <!-- Indicateurs de progression -->
+    <div class="ob-dots">
+      <div class="ob-dot active" id="dot1"></div>
+      <div class="ob-dot" id="dot2"></div>
+      <div class="ob-dot" id="dot3"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ======= EMAIL SENT ======= -->
+<div id="emailSentPage" class="page">
+  <div style="max-width:480px;margin:0 auto;padding:40px 20px;text-align:center">
+    <div style="font-size:4rem;margin-bottom:20px">📧</div>
+    <h2 style="font-size:1.6rem;font-weight:900;color:#1a1a2e;margin-bottom:12px">Vérifie ton email !</h2>
+    <p style="color:#6b7280;margin-bottom:8px">Un lien de confirmation a été envoyé à :</p>
+    <p id="confirmEmail" style="font-weight:700;color:#6c63ff;font-size:1rem;margin-bottom:24px;word-break:break-all"></p>
+    <div style="background:#f5f4ff;border-radius:16px;padding:20px;margin-bottom:24px;text-align:left">
+      <p style="font-weight:700;margin-bottom:12px">📋 Marche à suivre :</p>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="background:#6c63ff;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">1</span>
+          <p style="font-size:.9rem;color:#374151">Ouvre ton application email (Gmail, Yahoo...)</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="background:#6c63ff;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">2</span>
+          <p style="font-size:.9rem;color:#374151">Cherche un email de <strong>noreply@mail.app.supabase.io</strong></p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="background:#6c63ff;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">3</span>
+          <p style="font-size:.9rem;color:#374151">Clique sur <strong>"Confirm your email"</strong> dans cet email</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <span style="background:#22c55e;color:#fff;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0">✓</span>
+          <p style="font-size:.9rem;color:#374151">Tu seras automatiquement connecté à Analyzer Pro !</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.85rem;color:#9ca3af;margin-bottom:16px">Pas reçu l'email ? Vérifie tes spams ou</p>
+    <button onclick="showAuthForm('signup');showPage('landingPage')" style="background:none;border:2px solid #6c63ff;color:#6c63ff;padding:12px 24px;border-radius:10px;cursor:pointer;font-weight:700;font-size:.9rem">Réessayer avec un autre email</button>
   </div>
 </div>
 
@@ -59,11 +162,11 @@
   <div style="max-width:480px;margin:0 auto;padding:20px">
     <div class="profile-sel-header">
       <div style="font-size:2.5rem;margin-bottom:12px">🎯</div>
-      <h1 data-t="profileSelTitle">Quel est ton profil ?</h1>
-      <p data-t="profileSelSub">Ton IA s'adapte à ta réalité</p>
+      <h1>Quel est ton profil ?</h1>
+      <p>Ton IA s'adapte à ta réalité et à ton marché</p>
     </div>
     <div class="profile-grid" id="profileGrid"></div>
-    <button class="btn-primary" onclick="saveProfile()" data-t="continue" style="margin-top:8px">Continuer →</button>
+    <button class="btn-primary" onclick="saveProfile()" style="margin-top:8px">Continuer →</button>
   </div>
 </div>
 
@@ -73,32 +176,29 @@
     <div class="paywall-header">
       <div style="font-size:2.5rem;margin-bottom:12px">🔒</div>
       <h1>Accède aux <span>17 outils IA</span></h1>
-      <p data-t="paywallSub">Trouve, valide, crée et vends tes produits digitaux en Afrique</p>
+      <p>Trouve, valide, crée et vends tes produits digitaux en Afrique</p>
     </div>
     <div class="modules-preview" id="modulesPreview"></div>
     <div class="paywall-offer">
-      <div style="font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:4px" data-t="betaOffer">🔥 Offre Beta limitée</div>
-      <div class="price">10 000 <span>XOF</span></div>
-      <div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:12px" data-t="betaDuration">3 mois d'accès complet, une seule fois</div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.7);margin-bottom:4px">🔥 Offre Beta limitée</div>
+      <div class="price">4 900 <span>XOF</span></div>
+      <div style="font-size:.85rem;color:rgba(255,255,255,.6);margin-bottom:12px">3 mois d'accès complet — une seule fois</div>
       <ul class="perks">
-        <li data-t="perk1">17 modules IA actifs</li>
-        <li data-t="perk2">Adapté au marché africain (XOF, Mobile Money)</li>
-        <li data-t="perk3">Mises à jour incluses pendant 3 mois</li>
-        <li data-t="perk4">Accès illimité à tous les modules</li>
+        <li>17 modules IA actifs, sans limite</li>
+        <li>Adapté au marché africain (XOF, Mobile Money)</li>
+        <li>Mises à jour incluses pendant 3 mois</li>
+        <li>Images et exemples réels dans chaque analyse</li>
       </ul>
     </div>
-    <button class="btn-pay" id="fedapay-btn" data-t="payBtn">💳 Payer 10 000 XOF — MTN | Moov | Carte</button>
-    <p style="text-align:center;color:rgba(255,255,255,.5);font-size:.8rem;margin-top:10px" data-t="paySecure">🔒 Paiement sécurisé via FedaPay</p>
-    <button onclick="handleLogout()" style="width:100%;background:none;border:none;color:rgba(255,255,255,.4);padding:12px;cursor:pointer;font-size:.85rem;margin-top:6px" data-t="logout">Se déconnecter</button>
+    <button class="btn-pay" id="fedapay-btn">💳 Payer 4 900 XOF — MTN | Moov | Carte</button>
+    <p style="text-align:center;color:rgba(255,255,255,.5);font-size:.8rem;margin-top:10px">🔒 Paiement sécurisé via FedaPay</p>
+    <button onclick="handleLogout()" style="width:100%;background:none;border:none;color:rgba(255,255,255,.4);padding:12px;cursor:pointer;font-size:.85rem;margin-top:6px">Se déconnecter</button>
   </div>
 </div>
 
 <!-- ======= DASHBOARD ======= -->
 <div id="dashboardPage" class="page">
-  <!-- Sidebar overlay -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
-
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <span>🚀 Analyzer Pro</span>
@@ -107,7 +207,6 @@
     <nav id="sidebarNav"></nav>
   </div>
 
-  <!-- Topbar -->
   <div class="topbar">
     <button class="menu-btn" onclick="openSidebar()">☰</button>
     <span class="topbar-logo">🚀 Analyzer Pro</span>
@@ -117,7 +216,6 @@
     </div>
   </div>
 
-  <!-- Main content -->
   <div class="main-content">
 
     <!-- HOME -->
@@ -136,6 +234,7 @@
         <button class="menu-btn" onclick="showView('homePage')">←</button>
         <h2 id="moduleTitle"></h2>
       </div>
+      <div id="moduleBadge" style="margin-bottom:12px"></div>
       <div class="form-card">
         <div id="moduleForm"></div>
         <button class="btn-primary" id="moduleBtn" onclick="runCurrentModule()">Analyser</button>
@@ -148,22 +247,20 @@
     <div id="profilePage" class="view">
       <div class="page-header">
         <button class="menu-btn" onclick="showView('homePage')">←</button>
-        <h2 data-t="profileTitle">Mon Profil</h2>
+        <h2>👤 Mon Profil</h2>
       </div>
       <div class="form-card">
         <div class="profile-avatar">👤</div>
-        <h3 id="profileName" class="text-center mt-8"></h3>
-        <p id="profileEmail" class="text-center text-muted text-sm mt-8"></p>
-        <div class="stat-grid mt-12">
+        <h3 id="profileName" style="text-align:center;margin-top:8px"></h3>
+        <p id="profileEmail" style="text-align:center;color:#888;font-size:.9rem;margin:4px 0 16px"></p>
+        <div class="stat-grid">
           <div class="stat-card"><div class="stat-label" data-t="statPlan">Plan</div><div class="stat-val" id="statPlan">—</div></div>
           <div class="stat-card"><div class="stat-label" data-t="statExpiry">Expire le</div><div class="stat-val" id="statExpiry" style="font-size:.9rem">—</div></div>
-        </div>
-        <div class="stat-grid">
-          <div class="stat-card"><div class="stat-label" data-t="statProfile">Profil</div><div class="stat-val" id="statProfile" style="font-size:.9rem">—</div></div>
+          <div class="stat-card"><div class="stat-label" data-t="statProfile">Profil</div><div class="stat-val" id="statProfile" style="font-size:.85rem">—</div></div>
           <div class="stat-card"><div class="stat-label" data-t="statAnalyses">Analyses</div><div class="stat-val" id="statAnalyses">0</div></div>
         </div>
-        <button class="btn-secondary mt-8" onclick="showProfileSelector(true)" data-t="changeProfile">Changer de profil</button>
-        <button class="btn-back" onclick="handleLogout()" data-t="logout" style="color:#ef4444">🚪 Se déconnecter</button>
+        <button class="btn-secondary" onclick="showProfileSelector()" style="margin-top:8px">Changer de profil</button>
+        <button class="btn-back" onclick="handleLogout()" style="color:#ef4444">🚪 Se déconnecter</button>
       </div>
     </div>
 
@@ -171,31 +268,40 @@
     <div id="settingsPage" class="view">
       <div class="page-header">
         <button class="menu-btn" onclick="showView('homePage')">←</button>
-        <h2 data-t="settingsTitle">Paramètres</h2>
+        <h2>⚙️ Paramètres</h2>
       </div>
       <div class="form-card">
         <div class="r-section">
-          <div class="r-section-title" data-t="settingsLang">🌐 Langue</div>
-          <div style="display:flex;gap:10px;margin-top:8px">
-            <button class="btn-primary" style="width:auto;padding:10px 20px" onclick="setLang('fr')">Français</button>
-            <button class="btn-secondary" style="width:auto;padding:10px 20px" onclick="setLang('en')">English</button>
+          <div class="r-section-title">🌐 Langue</div>
+          <div style="display:flex;gap:10px;margin-top:10px">
+            <button class="btn-primary" style="width:auto;padding:10px 24px" onclick="setLang('fr')">Français</button>
+            <button class="btn-secondary" style="width:auto;padding:10px 24px" onclick="setLang('en')">English</button>
           </div>
         </div>
-        <div class="r-section mt-8">
-          <div class="r-section-title" data-t="settingsDelete">⚠️ Supprimer mon compte</div>
-          <p class="text-sm text-muted mt-8" data-t="settingsDeleteDesc">Cette action est irréversible.</p>
-          <button class="btn-back" style="color:#ef4444;text-align:left" onclick="deleteAccount()" data-t="deleteBtn">Supprimer mon compte</button>
+        <div class="r-section" style="margin-top:12px">
+          <div class="r-section-title">⚠️ Supprimer mon compte</div>
+          <p style="font-size:.85rem;color:#888;margin-top:6px">Cette action est irréversible.</p>
+          <button class="btn-back" style="color:#ef4444;text-align:left" onclick="deleteAccount()">Supprimer mon compte</button>
         </div>
-        <button class="btn-back" onclick="showView('homePage')" data-t="back">← Retour</button>
+        <button class="btn-back" onclick="showView('homePage')">← Retour</button>
       </div>
     </div>
 
-  </div><!-- end main-content -->
-</div><!-- end dashboardPage -->
+  </div>
+</div>
+
+<div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<!-- FedaPay SDK — Remplace YOUR_FEDAPAY_PUBLIC_KEY par ta vraie clé publique -->
 <script src="https://cdn.fedapay.com/checkout.js?v=1.1.7"></script>
 <script src="app.js"></script>
+<script>
+function showObStep(n) {
+  [1,2,3].forEach(i=>{
+    document.getElementById('ob'+i).classList.toggle('hidden',i!==n);
+    document.getElementById('dot'+i).classList.toggle('active',i===n);
+  });
+}
+</script>
 </body>
 </html>
